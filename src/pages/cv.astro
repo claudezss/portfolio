@@ -4,89 +4,94 @@ import TimeLineElement from "../components/cv/TimeLine.astro";
 ---
 
 <BaseLayout title="Resume" sideBarActiveItemID="cv">
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Profile</div>
-  </div>
 
-  <div class="mb-10 text-justify">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-    aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  </div>
+    <div class="mb-5">
+        <div class="text-3xl w-full font-bold">Education</div>
+    </div>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Education</div>
-  </div>
+    <div class="time-line-container grid gap-4 mb-10">
+        <TimeLineElement
+                title="Master of Engineering - MEng, ECE"
+                subtitle="2023 to 2026 at University of Toronto, Toronto, Canada"
+        />
+        <TimeLineElement
+                title="Bachelor of Engineering - BE, ECE"
+                subtitle="2013 to 2017 at University of Western Ontario, London, Canada"
+        />
+    </div>
 
-  <div class="time-line-container grid gap-4 mb-10">
-    <TimeLineElement
-      title="Title Name"
-      subtitle="[start year] to [end year] at [Study Center Name], [City], [Country]"
-    />
-    <TimeLineElement
-      title="Title Name"
-      subtitle="[start year] to [end year] at [Study Center Name], [City], [Country]"
-    />
-  </div>
+    <div class="mb-5">
+        <div class="text-3xl w-full font-bold">Experience</div>
+    </div>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Experience</div>
-  </div>
+    <div class="time-line-container mb-10">
+        <TimeLineElement
+                title="Staff Software Engineer"
+                subtitle="From 2023 to Present, GridOS-DERMS, GE Digital, GE Veronva"
+        >
+            ...
+        </TimeLineElement>
 
-  <div class="time-line-container mb-10">
-    <TimeLineElement
-      title="Job Title at Project or Company Name"
-      subtitle="From [Start Date] to [End Date] at [Company], [City], [Country]"
-    >
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-    </TimeLineElement>
-    <TimeLineElement
-      title="Job Title at Project or Company Name"
-      subtitle="From [Start Date] to [End Date] at [Company], [City], [Country]"
-    >
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-    </TimeLineElement>
-    <TimeLineElement
-      title="Job Title at Project or Company Name"
-      subtitle="From [Start Date] to [End Date] at [Company], [City], [Country]"
-    >
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-    </TimeLineElement>
-  </div>
+        <TimeLineElement
+                title="Software Engineer"
+                subtitle="From 2019 to 2023, GridOS-DERMS, GE Digital, GE Veronva"
+        >
+            <ul class="list-disc mx-6 mb-10 grid gap-2">
+                <li>Design, implement and improve mathematical optimization models to simulate electric power grid with
+                    distributed energy resources (DERs) by using GAMS
+                </li>
+                <li>
+                    Maintain `optimization engine`: the python package to run power flow analysis
+                </li>
+                <li>
+                    Design, implement and improve OPF(optimal power flow) objectives,
+                    e.g : cost minimization, operational envelope, bid fulfillment, etc
+                </li>
+                <li>
+                    Design, implement and improve RESTful APIs on micro-service to run powerflow analyses. (flask)
+                </li>
+                <li>
+                    Design, implement and improve Queue-based micro-service to run powerflow analyses. (Kafka)
+                </li>
+                <li>
+                    Design, implement and improve benchmark testing tools
+                </li>
+                <li>
+                    Write documentations and white papers for the optimization models and applications developed
+                </li>
+                <li>
+                    Analysis and validate optimal power flow results of customers' networks, and compare results with
+                    published data from IEEE Power & Energy Society (IEEE PES)
+                </li>
+            </ul>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Certifications</div>
-  </div>
+        </TimeLineElement>
 
-  <ul class="list-disc mx-6 mb-10 grid gap-2">
-    <li>
-      <a href="#" target="_blank"> Certification Name (with link)</a>
-    </li>
-    <li>
-      <a href="#" target="_blank"> Certification Name (with link)</a>
-    </li>
-  </ul>
+        <TimeLineElement
+                title="Full Stack Developer"
+                subtitle="From 2017 to 2019 at GreenfieldSCM, Supply Chain Management"
+        >
+            Developing Visualized Supply Chain Management System, include tracking, payment,
+            and invoice generation functions. This web app is built by React (for frontend),
+            MYSQL and Django (for backend).
+        </TimeLineElement>
+    </div>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Skills</div>
-  </div>
+    <div class="mb-5">
+        <div class="text-3xl w-full font-bold">Skills</div>
+    </div>
 
-  <ul class="list-disc md:columns-5 columns-2 mx-6">
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-    <li>Skill Name</li>
-  </ul>
+    <ul class="list-disc md:columns-5 columns-2 mx-6">
+        <li>Python</li>
+        <li>React</li>
+        <li>GAMS</li>
+        <li>AWS/GCP/Azure</li>
+        <li>Kafka</li>
+        <li>Docker</li>
+        <li>K8S</li>
+        <li>CI/CD</li>
+        <li>Power System</li>
+        <li>AC OPF</li>
+        <li>Rust</li>
+    </ul>
 </BaseLayout>

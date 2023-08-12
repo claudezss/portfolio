@@ -2,7 +2,7 @@
 title: "A Simple Python Memory Usage Profiler"
 description: "python profiler"
 pubDate: "June 10 2022"
-heroImage: "/Earth.jpg"
+heroImage: "/digital.jpg"
 ---
 
 ## Install Linux Perf

@@ -5,7 +5,7 @@ pubDate: "Sep 10 2022"
 heroImage: "https://www.ge.com/digital/sites/default/files/2023-05/grid-os-hero-3200x700.webp"
 ---
 
-GridOS-DERMS brings together the full breadth of Opus One’s innovations in model-based decision making,
+[GridOS-DERMS](https://www.ge.com/digital/sites/default/files/download_assets/opus-one-derms-from-ge-digital.pdf) brings together the full breadth of Opus One’s innovations in model-based decision making,
 real-time grid visibility, and distributed energy resource valuation.
 
 Features include:
