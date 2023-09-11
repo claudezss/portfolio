@@ -2,7 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HorizontalCard from "../components/HorizontalCard.astro";
 import { getCollection } from "astro:content";
-import {Image} from "@astrojs/image/components";
+import { Image } from 'astro:assets'
+import paperImg from '../imgs/paper.png'
 
 const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const last_posts = posts.slice(0, 3);
@@ -76,9 +77,9 @@ const last_projects = projects.slice(0, 3);
   <div class="rounded-lg bg-base-100 hover:shadow-xl transition ease-in-out hover:scale-[102%]">
     <div class="hero-content flex-col md:flex-row">
       <Image
-            src="/paper.png"
-            aspectRatio="16:9"
+            src={paperImg}
             width={750}
+            height={1333}
             format="webp"
             alt="paper"
             class="max-w-full md:max-w-[13rem] rounded-lg"

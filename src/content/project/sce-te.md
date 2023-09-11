@@ -2,7 +2,7 @@
 title: "SCE TE"
 description: "SCE Transactive Energy Management Software"
 pubDate: "Sep 10 2020"
-heroImage: "https://www.ge.com/digital/sites/default/files/2023-05/grid-os-hero-3200x700.webp"
+heroImage: "/project.png"
 ---
 
 [SCE Transactive Energy Management Software](https://www.globenewswire.com/en/news-release/2020/07/23/2066619/0/en/Opus-One-Solutions-deploys-first-transactive-energy-management-software-at-Southern-California-Edison-for-a-DOE-demonstration-project.html)
