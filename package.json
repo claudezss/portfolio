@@ -12,7 +12,7 @@
     "astro": "astro"
   },
   "engines": {
-    "node": "19.x"
+    "node": "18.x"
   },
   "dependencies": {
     "@astrojs/mdx": "^0.19.7",
