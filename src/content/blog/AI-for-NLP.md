@@ -3,7 +3,7 @@ title: "Can AI speed up NLP"
 description: "AI for NLP"
 pubDate: "May 8 2023"
 heroImage: "/blog.jpeg"
-tags: ["AI", "NLP"] 
+tags: ["AI&ML", "NLP"] 
 ---
 
 

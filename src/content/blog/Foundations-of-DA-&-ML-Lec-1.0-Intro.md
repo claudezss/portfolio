@@ -1,28 +1,34 @@
 ---
-title: "Foundations of DA & ML - Lec 01 Intro and KNN"
-description: "Introduction of ML and KNN"
+title: "Foundations of DA & ML - Lec 1.0 Intro"
+description: "Introduction of ML"
 pubDate: "Sept 12 2023"
 heroImage: "/blog.jpeg"
-tags: ["ML", "Lecture", "Foundations of DA & ML", "Python"] 
+tags: ["AI&ML", "Lecture", "Foundations of DA & ML", "Python", "APS1070"] 
 ---
+
+
+> This is a summary/knowledge base of my M.Eng. course content. <br>
+> Please let me know if there is any infringement
+
+
 
 ## What is machine learning?
 
 > Machine learning is a branch of artificial intelligence (AI) and computer science which focuses on the use of data and algorithms to imitate the way that humans learn, gradually improving its accuracy -- [IBM](https://www.ibm.com/topics/machine-learning)
 
-Machine learning is an important component of the growing field of data science. Through the use of statistical methods, algorithms are trained to make classifications or predictions, and to uncover key insights in data mining projects. These insights subsequently drive decision making within applications and businesses, ideally impacting key growth metrics. As big data continues to expand and grow, the market demand for data scientists will increase. They will be required to help identify the most relevant business questions and the data to answer them.
+Machine learning is an important component of the growing field of data science. Through the use of statistical methods, algorithms are trained to make classifications or predictions, and to uncover key insights in data mining projects. These insights subsequently drive decision making within applications and businesses, ideally impacting key growth metrics. As big data continues to expand and grow, the market demand for data scientists will increase. They will be required to help identify the most relevant business questions and the data to answer them. [[2]](#2)
 
-Machine learning algorithms are typically created using frameworks that accelerate solution development, such as TensorFlow and PyTorch.
+Machine learning algorithms are typically created using frameworks that accelerate solution development, such as TensorFlow and PyTorch.[[1]](#1)
 
-- A machine learning algorithm then takes “training data” and produces a model to generate the correct output *
-- If done correctly the program will generalize to cases not observed...more on this later *
-- **Instead of writing programs** by hand the **focus shifts to collecting quality examples** that highlight the correct output *
+- A machine learning algorithm then takes “training data” and produces a model to generate the correct output
+- If done correctly the program will generalize to cases not observed...more on this later
+- **Instead of writing programs** by hand the **focus shifts to collecting quality examples** that highlight the correct output
 
 
 
-### ML Applications *
+### ML Applications [[1]](#1)
 
-- Voice recognition/synthesis
+- ###### Voice recognition/synthesis
 - AI assistant
 - Machine translation
 - Object recognition ( E.g:  [YOLO](https://pjreddie.com/darknet/yolo))
@@ -39,11 +45,11 @@ Machine learning algorithms are typically created using frameworks that accelera
 
 
 
-## What is Data Science 
+## What is Data Science
 
 > Data science combines math and statistics, specialized programming, advanced analytics, artificial intelligence (AI), and machine learning with specific subject matter expertise to uncover actionable insights hidden in an organization’s data. These insights can be used to guide decision making and strategic planning. -- [IBM](https://www.ibm.com/topics/data-science)
 
-The data science lifecycle involves various roles, tools, and processes, which enables analysts to glean actionable insights. Typically, a data science project undergoes the following stages:
+The data science lifecycle involves various roles, tools, and processes, which enables analysts to glean actionable insights. Typically, a data science project undergoes the following stages: [[3]](#3)
 
 - **Data ingestion**: The lifecycle begins with the data collection--both raw structured and unstructured data from all relevant sources using a variety of methods. These methods can include manual entry, web scraping, and real-time streaming data from systems and devices. Data sources can include structured data, such as customer data, along with unstructured data like log files, video, audio, pictures, the Internet of Things (IoT), social media, and more.
 
@@ -53,13 +59,13 @@ The data science lifecycle involves various roles, tools, and processes, which e
 
 - **Communicate:** Finally, insights are presented as reports and other data visualizations that make the insights—and their impact on business—easier for business analysts and other decision-makers to understand. A data science programming language such as R or Python includes components for generating visualizations; alternately, data scientists can use dedicated visualization tools.
 
-Data Science is *:
+Data Science is [[1]](#1):
 
 - Multidisciplinary
 - Digital revolution
 - Data-driven discovery
 
-It includes * :
+It includes [[1]](#1):
 
 - Data Mining
 - Machine Learning
@@ -87,13 +93,13 @@ In short, a data scientist must be able to:
 - Explain how the results can be used to solve business problems.
 - Collaborate with other data science team members, such as data and business analysts, IT architects, data engineers, and application developers.
 
-These skills are in high demand, and as a result, many individuals that are breaking into a data science career, explore a variety of data science programs, such as certification programs, data science courses, and degree programs offered by educational institutions.
+These skills are in high demand, and as a result, many individuals that are breaking into a data science career, explore a variety of data science programs, such as certification programs, data science courses, and degree programs offered by educational institutions. [[3]](#3)
 
 
 
-## Types of Machine Learning Systems *
+## Types of Machine Learning Systems
 
-It is useful to classify machine learning systems into broad categories based on the following criteria:
+It is useful to classify machine learning systems into broad categories based on the following criteria: [[1]](#1)
 
 - supervised, unsupervised, semi-supervised, and reinforcement learning
 - classification versus regression
@@ -101,9 +107,9 @@ It is useful to classify machine learning systems into broad categories based on
 - instance-based versus model-based learning 
 - parametric or nonparametric
 
-### Supervised/Unsupervised Learning *
+### Supervised/Unsupervised Learning
 
-Machine Learning systems can be classified according to the amount and type of supervision they get during training.
+Machine Learning systems can be classified according to the amount and type of supervision they get during training. [[1]](#1)
 
 - Supervised
 
@@ -116,17 +122,19 @@ Machine Learning systems can be classified according to the amount and type of s
 
 - Reinforcement Learning
 
-### Instance-Based/Model-Based Learning *
+### Instance-Based/Model-Based Learning
 
-system learns the examples by heart, then generalizes to new cases by using a similarity/distance measure to compare them to the learned examples
+#### Instance-Based
 
-### Model-Based *
+system learns the examples by heart, then generalizes to new cases by using a similarity/distance measure to compare them to the learned examples[[1]](#1)
 
-build a model of these examples and then use that model to make predictions
+#### Model-Based
+
+build a model of these examples and then use that model to make predictions [[1]](#1)
 
 
 
-## Challenges of Machine Learning *
+## Challenges of Machine Learning [[1]](#1)
 
 - Insufficient Data
 - Quality Data
@@ -141,20 +149,7 @@ build a model of these examples and then use that model to make predictions
 
 
 
-## K-Nearest Neighbours Classifier
-
-- Output is a class (here, blue or yellow)
-- Instance-based learning, or lazy learning: computation only happens once called
-- Flexible approach – no assumptions on data distribution
-
-
-
-**To Be Continued...**
-
-
-
 ## References
-
-- Uoft APS1070
-- IBM https://www.ibm.com/topics/machine-learning
-- IBM https://www.ibm.com/topics/data-science
+1. <a id="1"/>Uoft APS1070
+2. <a id="2"/>IBM https://www.ibm.com/topics/machine-learning
+3. <a id="3"/>IBM https://www.ibm.com/topics/data-science
