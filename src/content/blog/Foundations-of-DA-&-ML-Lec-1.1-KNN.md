@@ -98,7 +98,6 @@ A [cone](https://en.wikipedia.org/wiki/Cone), the [graph](https://en.wikipedia.o
 ---
 
 
-
 ## Defining K
 
 
@@ -143,10 +142,11 @@ The k-NN algorithm has been utilized within a variety of applications, largely w
 **- Pattern Recognition**: KNN has also assisted in identifying patterns, such as in text and [digit classification](https://www.researchgate.net/profile/D-Adu-Gyamfi/publication/332880911_Improved_Handwritten_Digit_Recognition_using_Quantum_K-Nearest_Neighbor_Algorithm/links/5d77dca692851cacdb30c14d/Improved-Handwritten-Digit-Recognition-using-Quantum-K-Nearest-Neighbor-Algorithm.pdf) (link resides outside of ibm.com). This has been particularly helpful in identifying handwritten numbers that you might find on forms or mailing envelopes. 
 
 
+---
+
 
 ## Advantages and disadvantages of the KNN algorithm
 
-<br/>
 
 ###  **Advantages:** [[1]](#1)
 
@@ -163,6 +163,8 @@ The k-NN algorithm has been utilized within a variety of applications, largely w
 
 - **Prone to overfitting**: Due to the “curse of dimensionality”, KNN is also more prone to overfitting. While feature selection and dimensionality reduction techniques are leveraged to prevent this from occurring, the value of k can also impact the model’s behavior. Lower values of k can overfit the data, whereas higher values of k tend to “smooth out” the prediction values since it is averaging the values over a greater area, or neighborhood. However, if the value of k is too high, then it can underfit the data.
 
+
+---
 
 
 ## References
