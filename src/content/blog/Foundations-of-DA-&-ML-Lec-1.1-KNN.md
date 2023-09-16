@@ -1,7 +1,7 @@
 ---
 title: "Foundations of DA & ML - Lec 1.1 KNN"
 description: "Introduction of ML"
-pubDate: "Sept 12 2023"
+pubDate: "Sept 16 2023"
 heroImage: "/blog.jpeg"
 tags: ["AI&ML", "Lecture", "Foundations of DA & ML", "Python", "APS1070", "KNN"] 
 ---
@@ -35,7 +35,7 @@ In order to determine which data points are closest to a given query point, the 
 
 $$
 \begin{aligned}
-\left(\sum_{i=1}^n |x_i - y_i|)\right)^{1/p} 
+\left(\sum_{i=1}^n |x_i - y_i|^p)\right)^{1/p} 
 \end{aligned}\nonumber
 $$
 
