@@ -1,3 +1,11 @@
+---
+title: "Multi-Agent Cooperative Driving in HighwayEnv"
+description: "Course Project - Multi-RL Agent Cooperative Driving in HighwayEnv "
+pubDate: "Sept 14 2024"
+heroImage: "/project.png"
+---
+
+
 # Multi-Agent Cooperative Driving in HighwayEnv 
 
 Department of ECE, University of Toronto
