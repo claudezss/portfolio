@@ -5,9 +5,6 @@ pubDate: "Sept 14 2024"
 heroImage: "/project.png"
 ---
 
-
-# Multi-Agent Cooperative Driving in HighwayEnv 
-
 Department of ECE, University of Toronto
 
 - Jia Shu (Forrest) Zhang, forrest.zhang@mail.utoronto.ca
@@ -29,7 +26,6 @@ Driving is one of most important part of daily life in modern society, but the n
 
 ![img](/imgs/blog/highway-rl/fig1.png)
 
-Figure 1:Road fatalities in Canada in 2020 and 2021 compared to the linear trend since 2012 [5]
 Managing traffic flow in complex driving scenarios, such as highways with multiple entry and exit points, intersections, and roundabouts, presents significant challenges in ensuring safety and efficiency. Traditional traffic management systems often rely on heuristic-based approaches, which can struggle to adapt to dynamic and unpredictable environments. This project aims to develop and evaluate multi-agent reinforcement learning (MARL) techniques to address these challenges. We focus on a simulated environment, Highway-401, which combines highway, merging, intersection, and roundabout scenarios from HighwayEnv [2] into one. Leveraging the capabilities of deep reinforcement learning (RL), our goal is to enable multiple vehicles to operate cooperatively, navigating through complex road networks while avoiding collisions and minimizing congestion.
 
 ## 2 Preliminaries
@@ -55,13 +51,12 @@ $$
 
 where:
 
-```
 $v_{\text {limit }}$ is the speed limit,
-    $v_{\text {car }}$ is the vehicle's speed,
-    $\sigma=5$ (controls the width of the Gaussian curve),
-    $\alpha=0.1$ (penalty factor controlling how quickly the penalty increases),
+$v_{\text {car }}$ is the vehicle's speed,
+$\sigma=5$ (controls the width of the Gaussian curve),
+$\alpha=0.1$ (penalty factor controlling how quickly the penalty increases),
 $R_{\max }=0.5$ (the fixed reward magnitude).
-```
+
 
 ![img](/imgs/blog/highway-rl/fig2.png)
 
@@ -179,7 +174,7 @@ We expected the agent to learn to stop or slow down before the intersection and 
 ![img](/imgs/blog/highway-rl/fig6.png)
 
 
-For video demonstrations of our test runs, please visit this link.
+For video demonstrations of our test runs, please visit this [link](https://github.com/ece1508-ai-alchemist/highway-agent-401/tree/main/videos).
 
 ## 6 Answer Research Questions
 
@@ -217,3 +212,27 @@ Impact: The learning rate determines the step size during gradient descent, affe
 
 Observations: A lower learning rate (5e-4) generally resulted in better performance at intersections and roundabouts, suggesting that smaller steps allow the agent to learn more stable policies. Interestingly, the highest merge section success rate ( $100 \%$ ) was achieved with a higher learning rate (1e-3), indicating that faster learning can benefit simpler navigation tasks.
 
+## 7 Conclusions
+
+During this project, we explored various deep reinforcement learning algorithms for the customized Highway-401 environment. We encountered the complexities and challenges of managing traffic flow in dynamic and unpredictable multi-agent settings. Our experiments with both continuous and discrete action spaces underscored the importance of selecting appropriate action representations for effective training. Additionally, optimizing the reward system was crucial for guiding the agents towards desired behaviours, such as slowing down at intersections to avoid collisions. 
+
+For future improvements, several areas can be explored: 
+1. Optimizing Memory Buffer: The memory buffer should avoid storing all transitions indiscriminately. Balancing the buffer between different states and either partitioning it based on transition types or assigning priorities to transitions can improve efficiency. 
+2. Enhanced Neural Networks: Experimenting with deeper and more complex neural networks could potentially enhance performance. Incorporating batch normalization layers, skip connections, and more advanced training techniques like dropout or cutout could further refine the models. 
+3. Policy Improvements: Trying off-policy methods and collecting datasets to leverage CUDA more effectively could lead to significant gains in computational efficiency and training speed. 
+4. Environment Complexity: Making the environment more complex by adding stop signs, traffic lights, and more cooperative rewards would provide a more realistic and challenging setting for the agents to learn and operate within.
+
+### References
+
+[1]  T. Canada, "Canadian Motor Vehicle Traffic Collision Statistics: 2022," Transport 
+Canada, 2 5 2024. [Online]. Available: https://tc.canada.ca/en/road-transportation/statistics-data/canadian-motor-vehicle-traffic-collision-statistics-2022.
+
+[2]  L. Edouard, "highway-env," 2018. [Online]. Available: https://highway-env.farama.org/. 
+
+[3]  A. H. A. G. K. E. D. Antonin Raffin, "Stable-Baselines3," 2021. [Online]. Available: 
+https://stable-baselines3.readthedocs.io/.
+
+[4]  L. Edouard, "rl-agents," 2018. [Online]. Available: https://github.com/eleurent/rl-agents. 
+
+[5]  I. T. Form, "Road Safety Country Profiles Canada 2023," 2023. [Online]. Available: 
+https://www.itf-oecd.org/sites/default/files/canada-road-safety.pdf. 
