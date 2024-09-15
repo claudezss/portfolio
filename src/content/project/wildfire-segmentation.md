@@ -157,6 +157,7 @@ As we progressed to the training stage, we encountered new challenges related to
 
 As for further enhancement, we plan to investigate the integration of attention gates into our model architecture. These attention mechanisms can augment our model's sensitivity to specific regions within images, thereby refining the segmentation process for heightened precision. Additionally, we aim to incorporate dropout regularization techniques during training. By randomly deactivating neurons during training, dropout helps prevent overfitting and enhances the generalization ability of the model. Furthermore, we intend to conduct experiments with different threshold values to fine-tune the delineation of segmented regions and explore the utilization of weighted masks to augment our model's sensitivity.
 
+
 ## References
 
 - [1] R. Olaf, F. Philipp and B. Thomas, "U-Net: Convolutional Networks for Biomedical Image Segmentation," in MICCAI, 2015.
