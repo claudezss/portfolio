@@ -8,9 +8,22 @@ const blogSchema = z.object({
     updatedDate: z.string().optional(),
     heroImage: z.string().optional(),
     badge: z.string().optional(),
+    video: z.string().optional(),
+    video_title: z.string().optional(),
 });
 
 const projectSchema = z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.string().optional(),
+    heroImage: z.string().optional(),
+    badge: z.string().optional(),
+    video: z.string().optional(),
+    video_title: z.string().optional(),
+});
+
+const awardSchema = z.object({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
@@ -22,11 +35,14 @@ const projectSchema = z.object({
 
 export type BlogSchema = z.infer<typeof blogSchema>;
 export type ProjectSchema = z.infer<typeof projectSchema>;
+export type AwardSchema = z.infer<typeof awardSchema>;
 
 const blogCollection = defineCollection({ schema: blogSchema });
 const projectCollection = defineCollection({ schema: projectSchema });
+const awardCollection = defineCollection({ schema: awardSchema });
 
 export const collections = {
     'blog': blogCollection,
     'project': projectCollection,
+    'award': awardCollection
 }

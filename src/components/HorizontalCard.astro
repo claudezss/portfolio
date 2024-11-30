@@ -1,6 +1,7 @@
 ---
-const { title, img, desc, url, badge, tags, target = "_blank" } = Astro.props;
+const { title, img, desc, url, badge, tags, target = "_blank", video, video_title } = Astro.props;
 import { Image } from "astro:assets";
+import { YouTube } from 'astro-embed';
 ---
 
 <div
@@ -9,7 +10,12 @@ import { Image } from "astro:assets";
   <a href={url} target={target}>
     <div class="hero-content flex-col md:flex-row">
       {
-        img && (
+        video ? <div style="width: 750px" class="max-w-full md:max-w-[12rem] rounded-lg"><YouTube
+          id={video}
+          posterQuality="max"
+          title={video_title}
+
+        /></div> : (
           <Image
             src={img}
             width={750}

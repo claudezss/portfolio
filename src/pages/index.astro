@@ -8,18 +8,19 @@ import paperImg from '../imgs/paper.png'
 const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const last_posts = posts.slice(0, 3);
 const projects = (await getCollection("project")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
 const last_projects = projects.slice(0, 3);
+const awards = (await getCollection("award")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const last_awards = awards.slice(0, 3);
 ---
 
 <BaseLayout sideBarActiveItemID="home">
   <div class="pb-12 mt-5">
     <div class="text-xl py-1">Hey there, I'M...</div><br/>
-    <div class="text-5xl font-bold">Yan (Claude) Zhang</div> <br/>
-    <div class="text-3xl py-3 font-bold"> Senior Software Developer, Electrical Engineer</div>
+    <div class="text-5xl font-bold">Yan (Claude) Zhang, P.Eng.</div> <br/>
+    <div class="text-3xl py-3 font-bold"> Senior Software Engineer, ML Engineer, Electrical Engineer</div>
     <div class="py-2"><br/>
       <text class="text-lg">
-        Welcome to my portfolio website! I am a software developer and electrical engineer,
+        Welcome to my portfolio website! I am a software engineer, ML engineer and electrical engineer,
         specializing in the dynamic realm of power systems. With a strong commitment to driving positive change,
         I harness my dual expertise to contribute meaningfully towards achieving a sustainable
         and energy-efficient future.
@@ -31,7 +32,27 @@ const last_projects = projects.slice(0, 3);
   </div>
 
   <div>
-    <div class="text-3xl w-full font-bold mb-2">Projects</div>
+    <div class="text-3xl w-full font-bold mb-2">Awards</div>
+  </div>
+
+  {
+    last_awards.map((award) => (
+        <>
+          <HorizontalCard
+              title={award.data.title}
+              img={award.data.heroImage}
+              desc={award.data.description}
+              url={"/award/" + award.slug}
+              target="_self"
+              badge={award.data.badge}
+          />
+          <div class="divider my-0" />
+        </>
+    ))
+  }
+
+  <div>
+    <div class="text-3xl w-full font-bold mb-5 mt-10">Projects</div>
   </div>
 
   {
@@ -44,6 +65,8 @@ const last_projects = projects.slice(0, 3);
               url={"/project/" + project.slug}
               target="_self"
               badge={project.data.badge}
+              video={project.data.video}
+              video_title={project.data.video_title}
           />
           <div class="divider my-0" />
         </>
