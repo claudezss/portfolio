@@ -1,4 +1,4 @@
-import {defineConfig, squooshImageService} from 'astro/config';
+import {defineConfig} from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from "@astrojs/tailwind";
@@ -12,9 +12,7 @@ import rehypeStringify from 'rehype-stringify'
 // https://astro.build/config
 export default defineConfig({
     site: 'https://claudezss.com',
-    image: {
-        service: squooshImageService(),
-    },
+
     markdown: {
         remarkPlugins: [remarkParse, remarkMath, remarkRehype],
         rehypePlugins: [rehypeKatex, rehypeStringify],
