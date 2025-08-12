@@ -10,11 +10,18 @@ export async function getStaticPaths({paginate}) {
 }
 
 const {page} = Astro.props;
-let tags = [];
-page.data.forEach((entry) => {
-        entry.data.tags.forEach(tag => tags.includes(tag)? null:tags.push(tag))
-})
-const tags_set =  Array.from(new Set(tags));
+const allPosts = await getCollection("blog");
+allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+let allTags = [];
+allPosts.forEach((entry) => {
+    entry.data.tags.forEach(tag => {
+        if (!allTags.includes(tag)) {
+            allTags.push(tag);
+        }
+    });
+});
+const allTagsSet = Array.from(new Set(allTags)).sort();
 ---
 
 <BaseLayout title="Blog" sideBarActiveItemID="blog">
@@ -22,26 +29,42 @@ const tags_set =  Array.from(new Set(tags));
         <div class="text-3xl w-full font-bold">Blog</div>
     </div>
 
-     <div class="card-actions justify-end mb-5">
-        {
-            tags_set.map(
-                tag => <div class="badge badge-outline"><a href={"/blog/tags/"+tag}>{tag}</a></div>
-            )
-        }
-
+    <!-- Tag Filter Section -->
+    <div class="mb-6">
+        <div class="text-lg font-semibold mb-3">Filter by tags:</div>
+        <div class="flex flex-wrap gap-2 mb-4">
+            <button 
+                id="clear-filter" 
+                class="badge badge-primary cursor-pointer"
+            >
+                All Posts
+            </button>
+            {
+                allTagsSet.map(tag => (
+                    <button 
+                        class="badge badge-outline cursor-pointer tag-filter"
+                        data-tag={tag}
+                    >
+                        {tag}
+                    </button>
+                ))
+            }
+        </div>
     </div>
 
-    {
-        page.data.length === 0 ? (
+    <!-- Posts Container -->
+    <div id="posts-container">
+        {
+            allPosts.length === 0 ? (
                 <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
                     <p class="font-bold">Sorry!</p>
                     <p>There are no blog posts to show at the moment. Check back later!</p>
                 </div>
-        ) : (
-        <ul>
-            {page.data.map((post) => (
-                    <>
-                        <HorizontalCard
+            ) : (
+                <ul id="posts-list">
+                    {allPosts.map((post) => (
+                        <li class="post-item" data-tags={post.data.tags.join(',')}>
+                            <HorizontalCard
                                 title={post.data.title}
                                 img={post.data.heroImage}
                                 desc={post.data.description}
@@ -49,53 +72,81 @@ const tags_set =  Array.from(new Set(tags));
                                 tags={post.data.tags}
                                 target="_self"
                                 badge={post.data.badge}
-                        />
-                        <div class="divider my-0"/>
-                    </>
-            ))}
-        </ul>
-        )
+                            />
+                            <div class="divider my-0"/>
+                        </li>
+                    ))}
+                </ul>
+            )
+        }
+    </div>
+
+    <!-- No Results Message -->
+    <div id="no-results" class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full hidden">
+        <p class="font-bold">No posts found</p>
+        <p>Try selecting a different tag or view all posts.</p>
+    </div>
+
+    <script>
+        function filterPosts(selectedTag) {
+            const postItems = document.querySelectorAll('.post-item');
+            const noResults = document.getElementById('no-results');
+            const tagFilters = document.querySelectorAll('.tag-filter');
+            const clearFilter = document.getElementById('clear-filter');
+            let visibleCount = 0;
+
+            // Update button styles
+            tagFilters.forEach(btn => {
+                if (btn.dataset.tag === selectedTag) {
+                    btn.className = 'badge badge-primary cursor-pointer tag-filter';
+                } else {
+                    btn.className = 'badge badge-outline cursor-pointer tag-filter';
+                }
+            });
+
+            if (selectedTag === '') {
+                clearFilter.className = 'badge badge-primary cursor-pointer';
+            } else {
+                clearFilter.className = 'badge badge-outline cursor-pointer';
+            }
+
+            // Filter posts
+            postItems.forEach(item => {
+                const postTags = item.dataset.tags.split(',');
+                
+                if (selectedTag === '' || postTags.includes(selectedTag)) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show/hide no results message
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
         }
 
-        <div class="flex justify-between">
-            {
-                page.url.prev ? (
-                        <a href={page.url.prev} class="btn btn-ghost my-10 mx-5">
-                            {" "}
-                            <svg
-                                    class="h-6 w-6 fill-current md:h-8 md:w-8"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                            >
-                                <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/>
-                            </svg>
-                            {" "}
-                            Recent posts
-                        </a>
-                ) : (
-                        <div/>
-                )
-            }
-            {
-                page.url.next ? (
-                        <a href={page.url.next} class="btn btn-ghost my-10 mx-5">
-                            Older Posts{" "}
-                            <svg
-                                    class="h-6 w-6 fill-current md:h-8 md:w-8"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                            >
-                                {" "}
-                                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
-                            </svg>
-                        </a>
-                ) : (
-                        <div/>
-                )
-            }
-        </div>
-        </BaseLayout>
+        // Initialize with all posts visible and set up event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            filterPosts('');
+            
+            // Add event listeners to filter buttons
+            const clearFilter = document.getElementById('clear-filter');
+            const tagFilters = document.querySelectorAll('.tag-filter');
+            
+            clearFilter.addEventListener('click', function() {
+                filterPosts('');
+            });
+            
+            tagFilters.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterPosts(this.dataset.tag);
+                });
+            });
+        });
+    </script>
+</BaseLayout>
