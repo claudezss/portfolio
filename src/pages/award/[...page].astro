@@ -31,7 +31,7 @@ const { page } = Astro.props;
               title={award.data.title}
               img={award.data.heroImage}
               desc={award.data.description}
-              url={"/award/" + award.slug}
+              url={"/award/" + award.id}
               target="_self"
               badge={award.data.badge}
             />
