@@ -10,7 +10,7 @@ export interface Props {
 }
 
 const {title, description, image = '/yan.jpeg'} = Astro.props;
-import { ClientRouter } from 'astro:transitions';
+import {ViewTransitions} from 'astro:transitions';
 ---
 
 <!-- Global Metadata -->
@@ -19,7 +19,7 @@ import { ClientRouter } from 'astro:transitions';
 <link rel="icon" type="image/svg+xml" href="/geo.png"/>
 <meta name="generator" content={Astro.generator}/>
 <head>
-    <title>Yan's Portfolio</title><ClientRouter />
+    <title>Yan's Portfolio</title><ViewTransitions />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
             integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
 </head>

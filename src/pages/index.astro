@@ -42,7 +42,7 @@ const last_awards = awards.slice(0, 3);
               title={award.data.title}
               img={award.data.heroImage}
               desc={award.data.description}
-              url={"/award/" + award.id}
+              url={"/award/" + award.slug}
               target="_self"
               badge={award.data.badge}
           />
@@ -62,7 +62,7 @@ const last_awards = awards.slice(0, 3);
               title={project.data.title}
               img={project.data.heroImage}
               desc={project.data.description}
-              url={"/project/" + project.id}
+              url={"/project/" + project.slug}
               target="_self"
               badge={project.data.badge}
               video={project.data.video}
@@ -84,7 +84,7 @@ const last_awards = awards.slice(0, 3);
           title={post.data.title}
           img={post.data.heroImage}
           desc={post.data.description}
-          url={"/blog/" + post.id}
+          url={"/blog/" + post.slug}
           target="_self"
           badge={post.data.badge}
         />
