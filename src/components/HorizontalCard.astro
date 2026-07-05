@@ -1,16 +1,17 @@
 ---
-const { title, img, desc, url, badge, tags, target = "_blank", video, video_title } = Astro.props;
+const { title, img, desc, url, badge, tags, target = "_blank", video, video_title, index = 0 } = Astro.props;
 import { Image } from "astro:assets";
 import { YouTube } from 'astro-embed';
 ---
 
 <div
-  class="rounded-lg bg-base-100 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
+  class="rounded-lg glass-card hover:shadow-xl hover:glow-primary-sm transition-all duration-300 ease-out hover:scale-[102%] reveal"
+  style={`transition-delay: ${index * 60}ms`}
 >
   <a href={url} target={target}>
     <div class="hero-content flex-col md:flex-row">
       {
-        video ? <div style="width: 750px" class="max-w-full md:max-w-[12rem] rounded-lg"><YouTube
+        video ? <div style="width: 750px" class="max-w-full md:max-w-[12rem] rounded-lg ring-1 ring-primary/20"><YouTube
           id={video}
           posterQuality="max"
           title={video_title}

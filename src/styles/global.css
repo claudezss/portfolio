@@ -1,7 +1,158 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-    themes: all;
+  themes: gridtech --default;
+}
+@plugin "daisyui/theme" {
+  name: "gridtech";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(97% 0 0);
+  --color-base-300: oklch(90% 0 0);
+  --color-base-content: oklch(15% 0 0);
+
+  --color-primary: oklch(15% 0 0);
+  --color-primary-content: oklch(98% 0 0);
+  --color-secondary: oklch(40% 0 0);
+  --color-secondary-content: oklch(98% 0 0);
+  --color-accent: oklch(58% 0 0);
+  --color-accent-content: oklch(98% 0 0);
+  --color-neutral: oklch(30% 0 0);
+  --color-neutral-content: oklch(97% 0 0);
+
+  --color-info: oklch(50% 0 0);
+  --color-info-content: oklch(97% 0 0);
+  --color-success: oklch(35% 0 0);
+  --color-success-content: oklch(97% 0 0);
+  --color-warning: oklch(65% 0 0);
+  --color-warning-content: oklch(15% 0 0);
+  --color-error: oklch(25% 0 0);
+  --color-error-content: oklch(97% 0 0);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+:root {
+  --grid-line: color-mix(in oklch, var(--color-base-content) 12%, transparent);
+  --glow-primary: color-mix(in oklch, var(--color-primary) 30%, transparent);
+  --glow-secondary: color-mix(in oklch, var(--color-secondary) 30%, transparent);
+  --network-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cg fill='none' stroke='%23000000' stroke-width='1' opacity='0.10'%3E%3Cline x1='70' y1='90' x2='250' y2='60'/%3E%3Cline x1='250' y1='60' x2='410' y2='100'/%3E%3Cline x1='90' y1='250' x2='240' y2='230'/%3E%3Cline x1='240' y1='230' x2='400' y2='260'/%3E%3Cline x1='60' y1='410' x2='260' y2='400'/%3E%3Cline x1='260' y1='400' x2='420' y2='420'/%3E%3C/g%3E%3Cg fill='none' stroke='%23000000' stroke-width='1' opacity='0.07'%3E%3Cline x1='70' y1='90' x2='90' y2='250'/%3E%3Cline x1='90' y1='250' x2='60' y2='410'/%3E%3Cline x1='250' y1='60' x2='240' y2='230'/%3E%3Cline x1='240' y1='230' x2='260' y2='400'/%3E%3Cline x1='410' y1='100' x2='400' y2='260'/%3E%3Cline x1='400' y1='260' x2='420' y2='420'/%3E%3C/g%3E%3Cg fill='none' stroke='%23000000' stroke-width='1' opacity='0.05'%3E%3Cline x1='70' y1='90' x2='240' y2='230'/%3E%3Cline x1='250' y1='60' x2='90' y2='250'/%3E%3Cline x1='240' y1='230' x2='420' y2='420'/%3E%3C/g%3E%3Cg fill='%23000000' opacity='0.28'%3E%3Ccircle cx='70' cy='90' r='3'/%3E%3Ccircle cx='250' cy='60' r='3'/%3E%3Ccircle cx='410' cy='100' r='3'/%3E%3Ccircle cx='90' cy='250' r='3'/%3E%3Ccircle cx='240' cy='230' r='3.5'/%3E%3Ccircle cx='400' cy='260' r='3'/%3E%3Ccircle cx='60' cy='410' r='3'/%3E%3Ccircle cx='260' cy='400' r='3'/%3E%3Ccircle cx='420' cy='420' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.bg-circuit {
+  position: relative;
+  background-color: var(--color-base-100);
+  background-image: var(--network-pattern);
+  background-size: 480px 480px;
+  background-repeat: repeat;
+  animation: network-float 40s ease-in-out infinite;
+}
+.bg-circuit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 0%, color-mix(in oklch, var(--color-primary) 5%, transparent), transparent 55%);
+}
+
+.bg-circuit-subtle {
+  position: relative;
+  background-color: var(--color-base-100);
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--color-base-100) 62%, transparent), color-mix(in oklch, var(--color-base-100) 62%, transparent)),
+    var(--network-pattern);
+  background-size: cover, 480px 480px;
+  background-repeat: no-repeat, repeat;
+  animation: network-float 40s ease-in-out infinite;
+}
+.bg-circuit-subtle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 0%, color-mix(in oklch, var(--color-primary) 3%, transparent), transparent 55%);
+}
+
+@keyframes network-float {
+  0% { background-position: 0px 0px; }
+  50% { background-position: 26px 18px; }
+  100% { background-position: 0px 0px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-circuit, .bg-circuit-subtle {
+    animation: none;
+  }
+}
+
+.glow-primary {
+  box-shadow: 0 0 0 1px var(--grid-line), 0 0 24px var(--glow-primary);
+}
+.glow-primary-sm {
+  box-shadow: 0 0 12px var(--glow-primary);
+}
+.text-glow {
+  text-shadow: 0 0 12px var(--glow-primary);
+}
+
+.glass-card {
+  background: color-mix(in oklch, var(--color-base-200) 65%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--grid-line);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  transform: translateX(-24px);
+}
+.reveal-left.is-visible {
+  transform: translateX(0);
+}
+.reveal-scale {
+  transform: scale(0.96);
+}
+.reveal-scale.is-visible {
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-left, .reveal-scale {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.menu-active-glow {
+  position: relative;
+  background: color-mix(in oklch, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+}
+.menu-active-glow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-primary);
+  box-shadow: 0 0 8px var(--glow-primary);
 }
 
 .time-line-container>div:last-child .education__time>.education__line {

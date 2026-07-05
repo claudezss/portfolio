@@ -24,18 +24,18 @@ const {posts} = Astro.props;
 
 <BaseLayout title="Blog" sideBarActiveItemID="blog">
     <div class="mb-5">
-        <div class="text-3xl w-full font-bold">Blog</div>
+        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Blog</div>
     </div>
 
     {
         posts.length === 0 ? (
-                <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
+                <div class="glass-card border-l-4 border-secondary w-full p-4 min-w-full">
                     <p class="font-bold">Sorry!</p>
                     <p>There are no blog posts to show at the moment. Check back later!</p>
                 </div>
         ) : (
         <ul>
-            {posts.map((post) =>
+            {posts.map((post, i) =>
                     <>
                         <HorizontalCard
                                 title={post.data.title}
@@ -44,6 +44,7 @@ const {posts} = Astro.props;
                                 url={"/blog/" + post.id}
                                 target="_self"
                                 badge={post.data.badge}
+                                index={i}
                         />
                         <div class="divider my-0"/>
                     </>

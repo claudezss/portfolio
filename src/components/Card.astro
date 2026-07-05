@@ -1,11 +1,11 @@
 ---
-const { title, img, desc, url, badge, tags, target = "_blank" } = Astro.props;
+const { title, img, desc, url, badge, tags, target = "_blank", index = 0 } = Astro.props;
 import { Image } from "astro:assets";
 ---
 
-<div class="md:w-1/3 w-full">
+<div class="md:w-1/3 w-full reveal" style={`transition-delay: ${index * 60}ms`}>
   <a href={url} target={target}>
-    <div class="card bg-base-100 transition ease-in-out hover:shadow-xl mx-6 my-2 hover:scale-[102%]">
+    <div class="card glass-card transition-all duration-300 ease-out hover:shadow-xl hover:glow-primary-sm mx-6 my-2 hover:scale-[102%]">
       <Image width={750} hight={1333} format="webp" src={img} alt={title} />
       <div class="card-body">
         <h2 class="card-title">
