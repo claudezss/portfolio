@@ -1,12 +1,12 @@
 ---
-import { CollectionEntry, getCollection } from 'astro:content';
-import { AwardSchema } from '../../content/config';
+import { CollectionEntry, getCollection, render } from 'astro:content';
+import { AwardSchema } from '../../content.config';
 import AwardLayout from '../../layouts/AwardLayout.astro';
 
 export async function getStaticPaths() {
     const projectEntries = await getCollection('award');
     return projectEntries.map(entry => ( {
-        params: { slug: entry.slug }, props: { entry },
+        params: { slug: entry.id }, props: { entry },
     } ));
 }
 
@@ -16,7 +16,7 @@ interface Props {
 
 const { entry } = Astro.props;
 const award : AwardSchema = entry.data;
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 
 <AwardLayout

@@ -1,8 +1,9 @@
 import {defineConfig} from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import tailwind from "@astrojs/tailwind";
 import partytown from "@astrojs/partytown";
+import tailwindcss from '@tailwindcss/vite';
+import { unified } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
@@ -14,10 +15,15 @@ export default defineConfig({
     site: 'https://claudezss.com',
 
     markdown: {
-        remarkPlugins: [remarkParse, remarkMath, remarkRehype],
-        rehypePlugins: [rehypeKatex, rehypeStringify],
+        processor: unified({
+            remarkPlugins: [remarkParse, remarkMath, remarkRehype],
+            rehypePlugins: [rehypeKatex, rehypeStringify],
+        }),
     },
-    integrations: [mdx(), sitemap(), tailwind(),
+    vite: {
+        plugins: [tailwindcss()],
+    },
+    integrations: [mdx(), sitemap(),
         partytown({
             // Adds dataLayer.push as a forwarding-event.
             config: {
