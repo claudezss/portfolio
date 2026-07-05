@@ -6,10 +6,10 @@ import TimeLineElement from "../components/cv/TimeLine.astro";
 <BaseLayout title="Resume" sideBarActiveItemID="cv">
 
     <div class="mb-5">
-        <div class="text-3xl w-full font-bold">Education</div>
+        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Education</div>
     </div>
 
-    <div class="time-line-container grid gap-4 mb-10">
+    <div class="time-line-container grid gap-6 mb-10">
         <TimeLineElement
                 position="Master of Engineering - MEng, ECE"
                 company="University of Toronto, Toronto, Canada"
@@ -27,7 +27,7 @@ import TimeLineElement from "../components/cv/TimeLine.astro";
     </div>
 
     <div class="mb-5">
-        <div class="text-3xl w-full font-bold">Experience</div>
+        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Experience</div>
     </div>
 
     <div class="time-line-container mb-10">
@@ -141,28 +141,16 @@ import TimeLineElement from "../components/cv/TimeLine.astro";
     </div>
 
     <div class="mb-5">
-        <div class="text-3xl w-full font-bold">Skills</div>
+        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Skills</div>
     </div>
 
-    <ul class="list-disc md:columns-5 columns-2 mx-6">
-        <li>Python</li>
-        <li>Pytorch</li>
-        <li>PYG</li>
-        <li>Ray.io</li>
-        <li>React</li>
-        <li>GAMS</li>
-        <li>AWS/GCP/Azure</li>
-        <li>flask/fastapi</li>
-        <li>Kafka</li>
-        <li>Docker</li>
-        <li>K8S</li>
-        <li>System Design</li>
-        <li>CI/CD</li>
-        <li>Power System</li>
-        <li>Optimization</li>
-        <li>Machine Learning</li>
-        <li>Github/Gitlab</li>
-        <li>AC OPF</li>
-        <li>Rust</li>
-    </ul>
+    <div class="flex flex-wrap gap-2 mx-6 mb-10 reveal">
+        {[
+            "Python", "Pytorch", "PYG", "Ray.io", "React", "GAMS", "AWS/GCP/Azure",
+            "flask/fastapi", "Kafka", "Docker", "K8S", "System Design", "CI/CD",
+            "Power System", "Optimization", "Machine Learning", "Github/Gitlab", "AC OPF", "Rust",
+        ].map((skill) => (
+            <div class="badge badge-outline transition-colors duration-200 hover:border-primary hover:text-primary">{skill}</div>
+        ))}
+    </div>
 </BaseLayout>

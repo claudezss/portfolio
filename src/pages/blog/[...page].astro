@@ -26,23 +26,23 @@ const allTagsSet = Array.from(new Set(allTags)).sort();
 
 <BaseLayout title="Blog" sideBarActiveItemID="blog">
     <div class="mb-5">
-        <div class="text-3xl w-full font-bold">Blog</div>
+        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Blog</div>
     </div>
 
     <!-- Tag Filter Section -->
-    <div class="mb-6">
+    <div class="mb-6 reveal">
         <div class="text-lg font-semibold mb-3">Filter by tags:</div>
         <div class="flex flex-wrap gap-2 mb-4">
-            <button 
-                id="clear-filter" 
-                class="badge badge-primary cursor-pointer"
+            <button
+                id="clear-filter"
+                class="badge badge-primary cursor-pointer transition-colors duration-200"
             >
                 All Posts
             </button>
             {
                 allTagsSet.map(tag => (
-                    <button 
-                        class="badge badge-outline cursor-pointer tag-filter"
+                    <button
+                        class="badge badge-outline cursor-pointer tag-filter transition-colors duration-200"
                         data-tag={tag}
                     >
                         {tag}
@@ -56,13 +56,13 @@ const allTagsSet = Array.from(new Set(allTags)).sort();
     <div id="posts-container">
         {
             allPosts.length === 0 ? (
-                <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
+                <div class="glass-card border-l-4 border-secondary w-full p-4 min-w-full">
                     <p class="font-bold">Sorry!</p>
                     <p>There are no blog posts to show at the moment. Check back later!</p>
                 </div>
             ) : (
                 <ul id="posts-list">
-                    {allPosts.map((post) => (
+                    {allPosts.map((post, i) => (
                         <li class="post-item" data-tags={post.data.tags.join(',')}>
                             <HorizontalCard
                                 title={post.data.title}
@@ -72,6 +72,7 @@ const allTagsSet = Array.from(new Set(allTags)).sort();
                                 tags={post.data.tags}
                                 target="_self"
                                 badge={post.data.badge}
+                                index={i}
                             />
                             <div class="divider my-0"/>
                         </li>
@@ -82,7 +83,7 @@ const allTagsSet = Array.from(new Set(allTags)).sort();
     </div>
 
     <!-- No Results Message -->
-    <div id="no-results" class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full hidden">
+    <div id="no-results" class="glass-card border-l-4 border-secondary w-full p-4 min-w-full hidden">
         <p class="font-bold">No posts found</p>
         <p>Try selecting a different tag or view all posts.</p>
     </div>
@@ -98,16 +99,16 @@ const allTagsSet = Array.from(new Set(allTags)).sort();
             // Update button styles
             tagFilters.forEach(btn => {
                 if (btn.dataset.tag === selectedTag) {
-                    btn.className = 'badge badge-primary cursor-pointer tag-filter';
+                    btn.className = 'badge badge-primary cursor-pointer tag-filter transition-colors duration-200';
                 } else {
-                    btn.className = 'badge badge-outline cursor-pointer tag-filter';
+                    btn.className = 'badge badge-outline cursor-pointer tag-filter transition-colors duration-200';
                 }
             });
 
             if (selectedTag === '') {
-                clearFilter.className = 'badge badge-primary cursor-pointer';
+                clearFilter.className = 'badge badge-primary cursor-pointer transition-colors duration-200';
             } else {
-                clearFilter.className = 'badge badge-outline cursor-pointer';
+                clearFilter.className = 'badge badge-outline cursor-pointer transition-colors duration-200';
             }
 
             // Filter posts

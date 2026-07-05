@@ -2,21 +2,21 @@
 const {position, company, startDate, endDate, logo} = Astro.props;
 ---
 
-<div class="flex">
+<div class="flex reveal reveal-left">
     <div class="education__time">
-        <span class="w-4 h-4 bg-primary block rounded-full mt-1" style="margin-top: 13px"></span>
-        <span class="education__line bg-primary block h-full w-[2px] translate-x-[7px]"></span>
+        <span class="w-4 h-4 bg-primary block rounded-full mt-1 glow-primary-sm" style="margin-top: 13px"></span>
+        <span class="education__line bg-gradient-to-b from-primary to-primary/20 block h-full w-[2px] translate-x-[7px]"></span>
     </div>
     <div class="experience__data bd-grid px-5">
         <div class="flex items-start space-x-4">
             <div class="flex-shrink-0">
                 <img src={logo}
-                     alt="Company Logo" class="w-12 h-12 rounded-full">
+                     alt="Company Logo" class="w-12 h-12 rounded-full ring-1 ring-base-300 transition-transform duration-300 hover:scale-105">
             </div>
             <div class="flex-1">
                 <h2 class="text-lg font-semibold">{position}</h2>
                 <p>{company}</p>
-                <p class="text-gray-600">From {startDate} - {endDate}</p>
+                <p class="text-base-content/60">From {startDate} - {endDate}</p>
                 <p class="my-2 text-justify">
                     <slot/>
                 </p>
