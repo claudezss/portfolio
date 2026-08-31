@@ -76,11 +76,17 @@ body {
   color: #041016;
 }
 
-/* ---------- Legacy inner-page backgrounds (blog / project / award / cv) ---------- */
+/* ---------- Inner-page backgrounds (blog / project / award / cv) ----------
+   These sit above the fixed orb canvas, so they stay transparent and let the
+   body's own background show through instead of painting over it. */
+.site-shell {
+  background: transparent;
+}
 .bg-circuit,
 .bg-circuit-subtle {
   position: relative;
-  background-color: var(--bg);
+  z-index: 1;
+  background-color: transparent;
 }
 .bg-circuit::before {
   content: "";
@@ -403,7 +409,7 @@ body {
   50% { transform: translate(-50%, 8px); }
 }
 
-/* ---------- Orb background (behind every non-hero section) ---------- */
+/* ---------- Orb background (fixed, behind page content on every page) ---------- */
 #orb-canvas {
   position: fixed;
   inset: 0;
