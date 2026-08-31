@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+---
+
+<section class="home-section" id="writing">
+  <div class="home-wrap">
+    <div class="sec-head reveal">
+      <span class="idx">06</span>
+      <h2 class="shiny">Writing</h2>
+      <a class="sec-link" href="/blog/">all posts &rarr;</a>
+    </div>
+
+    <div class="post-grid">
+      {posts.map((post, i) => (
+        <a class="post-card reveal" data-d={i === 0 ? undefined : String(i)} href={`/blog/${post.id}`}>
+          <div class="post-date">{fmt(post.data.pubDate)}</div>
+          <h3>{post.data.title}</h3>
+          <p>{post.data.description}</p>
+          <div class="post-tags">
+            {post.data.tags.slice(0, 3).map((tag) => <span class="chip">{tag}</span>)}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

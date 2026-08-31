@@ -3,6 +3,10 @@ title: "GridOS DERMS"
 description: "GridOS® Distributed Energy Resource Management"
 pubDate: "Sep 10 2022"
 heroImage: "/project.png"
+tag: "Industry · GE Digital"
+icon: "zap"
+featured: true
+order: 1
 ---
 
 [GridOS-DERMS](https://www.ge.com/digital/sites/default/files/download_assets/opus-one-derms-from-ge-digital.pdf) brings together the full breadth of Opus One’s innovations in model-based decision making,

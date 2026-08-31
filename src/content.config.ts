@@ -22,6 +22,15 @@ const projectSchema = z.object({
     badge: z.string().optional(),
     video: z.string().optional(),
     video_title: z.string().optional(),
+    // Home page presentation. All optional — a project without them still
+    // renders on the home page with sensible defaults.
+    tag: z.string().optional(),
+    icon: z.enum(["zap", "sun", "flame", "car"]).optional(),
+    repoUrl: z.string().optional(),
+    featured: z.boolean().optional(),
+    /** Home page ordering, lowest first. Projects without it fall to the end,
+     *  newest first. */
+    order: z.number().optional(),
 });
 
 const awardSchema = z.object({

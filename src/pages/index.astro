@@ -7,47 +7,10 @@ import AboutSection from "../components/home/AboutSection.astro";
 import ExperienceTimeline from "../components/home/ExperienceTimeline.astro";
 import SkillGroups from "../components/home/SkillGroups.astro";
 import ProjectSwap from "../components/home/ProjectSwap.astro";
-import type { ProjectCard } from "../components/home/ProjectSwap.astro";
 import PublicationsAwards from "../components/home/PublicationsAwards.astro";
 import type { Publication } from "../components/home/PublicationsAwards.astro";
+import LatestWriting from "../components/home/LatestWriting.astro";
 import ContactSection from "../components/home/ContactSection.astro";
-
-const projects: ProjectCard[] = [
-  {
-    tag: "Industry · GE Digital",
-    title: "GridOS DERMS",
-    desc: "Distributed energy resource management system: online power flow, DER dispatch, Volt/VAR optimization & CVR, hosting capacity, LMP and day-ahead market clearing.",
-    linkLabel: "case study",
-    url: "/project/gridos-derms",
-    icon: "zap",
-  },
-  {
-    tag: "Industry · DOE ENERGISE",
-    title: "SCE Transactive Energy",
-    desc: "First-of-its-kind transactive energy management software deployed at Southern California Edison for the DOE ENERGISE/EASE project.",
-    linkLabel: "case study",
-    url: "/project/sce-te",
-    icon: "sun",
-  },
-  {
-    tag: "Research · UofT ECE",
-    title: "Wildfire Image Segmentation",
-    desc: "U-Net built from scratch to segment burned areas from post-fire California satellite imagery — featured by UofT ECE.",
-    linkLabel: "github",
-    url: "https://github.com/ece1508-ai-alchemist/wildfire-segmentation",
-    external: true,
-    icon: "flame",
-  },
-  {
-    tag: "Research · Multi-Agent RL",
-    title: "Cooperative Driving — Highway-401",
-    desc: "Multi-agent reinforcement learning for cooperative driving in HighwayEnv: agents learn to merge and yield together.",
-    linkLabel: "github",
-    url: "https://github.com/ece1508-ai-alchemist/highway-agent-401",
-    external: true,
-    icon: "car",
-  },
-];
 
 const publications: Publication[] = [
   {
@@ -73,8 +36,9 @@ const publications: Publication[] = [
   <AboutSection />
   <ExperienceTimeline />
   <SkillGroups />
-  <ProjectSwap projects={projects} />
+  <ProjectSwap />
   <PublicationsAwards publications={publications} />
+  <LatestWriting />
   <ContactSection />
 </BaseLayout>
 

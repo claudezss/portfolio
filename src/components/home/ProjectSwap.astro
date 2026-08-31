@@ -1,20 +1,36 @@
 ---
-export interface ProjectCard {
-  tag: string;
-  title: string;
-  desc: string;
-  linkLabel: string;
-  url: string;
-  external?: boolean;
-  icon: "zap" | "sun" | "flame" | "car";
-}
+import { getCollection } from "astro:content";
 
-const { projects } = Astro.props as { projects: ProjectCard[] };
+// Driven by the project content collection: adding a markdown file under
+// src/content/project/ puts it on the home page automatically. `order` in the
+// frontmatter pins the sequence; anything without one falls to the end, newest
+// first.
+const all = (await getCollection("project")).sort((a, b) => {
+  const ao = a.data.order ?? Number.MAX_SAFE_INTEGER;
+  const bo = b.data.order ?? Number.MAX_SAFE_INTEGER;
+  if (ao !== bo) return ao - bo;
+  return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+});
+const featured = all.filter((p) => p.data.featured !== false).slice(0, 4);
+
+const icons = ["zap", "sun", "flame", "car"] as const;
+const projects = featured.map((entry, i) => ({
+  id: entry.id,
+  title: entry.data.title.trim(),
+  desc: entry.data.description,
+  tag: entry.data.tag ?? "Project",
+  icon: entry.data.icon ?? icons[i % icons.length],
+  repoUrl: entry.data.repoUrl,
+}));
 ---
 
 <section class="home-section" id="projects">
   <div class="home-wrap">
-    <div class="sec-head reveal"><span class="idx">04</span><h2 class="shiny">Projects</h2></div>
+    <div class="sec-head reveal">
+      <span class="idx">04</span>
+      <h2 class="shiny">Projects</h2>
+      <a class="sec-link" href="/project/">all projects &rarr;</a>
+    </div>
     <div class="swap-layout">
       <div class="swap-intro reveal">
         <p>
@@ -65,13 +81,10 @@ const { projects } = Astro.props as { projects: ProjectCard[] };
             <h3>{project.title}</h3>
             <p>{project.desc}</p>
             <div class="links">
-              <a
-                href={project.url}
-                target={project.external ? "_blank" : "_self"}
-                rel={project.external ? "noopener" : undefined}
-              >
-                {project.linkLabel} &rarr;
-              </a>
+              <a href={`/project/${project.id}`}>case study &rarr;</a>
+              {project.repoUrl && (
+                <a href={project.repoUrl} target="_blank" rel="noopener">github &rarr;</a>
+              )}
             </div>
           </div>
         ))}
