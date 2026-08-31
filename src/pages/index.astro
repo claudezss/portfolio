@@ -1,147 +1,83 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HorizontalCard from "../components/HorizontalCard.astro";
-import { getCollection } from "astro:content";
-import paperImg from '../imgs/paper.png'
+import TopNav from "../components/home/TopNav.astro";
+import HeroScene from "../components/home/HeroScene.astro";
+import OrbBackground from "../components/home/OrbBackground.astro";
+import AboutSection from "../components/home/AboutSection.astro";
+import ExperienceTimeline from "../components/home/ExperienceTimeline.astro";
+import SkillGroups from "../components/home/SkillGroups.astro";
+import ProjectSwap from "../components/home/ProjectSwap.astro";
+import type { ProjectCard } from "../components/home/ProjectSwap.astro";
+import PublicationsAwards from "../components/home/PublicationsAwards.astro";
+import type { Publication } from "../components/home/PublicationsAwards.astro";
+import ContactSection from "../components/home/ContactSection.astro";
 
-const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const last_posts = posts.slice(0, 3);
-const projects = (await getCollection("project")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const last_projects = projects.slice(0, 3);
-const awards = (await getCollection("award")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const last_awards = awards.slice(0, 3);
-
-const publications = [
+const projects: ProjectCard[] = [
   {
-    title: "Three-Phase Distribution Locational Marginal Pricing for Competitive Electricity Markets with Distributed Generators and Flexible Loads",
-    desc: "2022 IEEE Power & Energy Society Innovative Smart Grid Technologies Conference (ISGT)",
-    url: "https://ieeexplore.ieee.org/abstract/document/9817498",
-    img: paperImg,
+    tag: "Industry · GE Digital",
+    title: "GridOS DERMS",
+    desc: "Distributed energy resource management system: online power flow, DER dispatch, Volt/VAR optimization & CVR, hosting capacity, LMP and day-ahead market clearing.",
+    linkLabel: "case study",
+    url: "/project/gridos-derms",
+    icon: "zap",
   },
   {
+    tag: "Industry · DOE ENERGISE",
+    title: "SCE Transactive Energy",
+    desc: "First-of-its-kind transactive energy management software deployed at Southern California Edison for the DOE ENERGISE/EASE project.",
+    linkLabel: "case study",
+    url: "/project/sce-te",
+    icon: "sun",
+  },
+  {
+    tag: "Research · UofT ECE",
+    title: "Wildfire Image Segmentation",
+    desc: "U-Net built from scratch to segment burned areas from post-fire California satellite imagery — featured by UofT ECE.",
+    linkLabel: "github",
+    url: "https://github.com/ece1508-ai-alchemist/wildfire-segmentation",
+    external: true,
+    icon: "flame",
+  },
+  {
+    tag: "Research · Multi-Agent RL",
+    title: "Cooperative Driving — Highway-401",
+    desc: "Multi-agent reinforcement learning for cooperative driving in HighwayEnv: agents learn to merge and yield together.",
+    linkLabel: "github",
+    url: "https://github.com/ece1508-ai-alchemist/highway-agent-401",
+    external: true,
+    icon: "car",
+  },
+];
+
+const publications: Publication[] = [
+  {
+    year: "2025",
     title: "Grid-Agent: An LLM-Powered Multi-Agent System for Power Grid Control",
-    desc: "ArXiv preprint",
+    venue: "ArXiv preprint",
     url: "https://arxiv.org/abs/2508.05702",
-    img: paperImg,
+  },
+  {
+    year: "2022",
+    title:
+      "Three-Phase Distribution Locational Marginal Pricing for Competitive Electricity Markets with Distributed Generators and Flexible Loads",
+    venue: "IEEE PES Innovative Smart Grid Technologies (ISGT)",
+    url: "https://ieeexplore.ieee.org/abstract/document/9817498",
   },
 ];
 ---
 
-<BaseLayout sideBarActiveItemID="home">
-  <div class="pb-12 mt-5">
-    <div class="text-xl py-1 reveal">Hey there, I'M...</div><br/>
-    <div class="text-5xl font-bold text-glow reveal" style="transition-delay: 80ms">Yan (Claude) Zhang, P.Eng.</div> <br/>
-    <div class="text-3xl py-3 font-bold text-primary reveal" style="transition-delay: 160ms"> Senior Software Engineer, ML Engineer, Electrical Engineer</div>
-    <div class="py-2 reveal" style="transition-delay: 240ms"><br/>
-      <text class="text-lg">
-        Welcome to my portfolio website! I am a software engineer, ML engineer and electrical engineer,
-        specializing in the dynamic realm of power systems. With a strong commitment to driving positive change,
-        I harness my dual expertise to contribute meaningfully towards achieving a sustainable
-        and energy-efficient future.
-        </text>
-    </div>
-    <div class="mt-8 reveal" style="transition-delay: 320ms">
-      <a class="btn btn-primary glow-primary-sm hover:glow-primary transition-all duration-300" href="https://www.linkedin.com/in/yan-zhang-p-eng-a21428113/" target="_blank"> Let's connect!</a>
-    </div>
-
-    <div class="stats stats-vertical sm:stats-horizontal glass-card mt-10 w-full reveal" style="transition-delay: 400ms">
-      <div class="stat">
-        <div class="stat-title">Years in Power Systems</div>
-        <div class="stat-value text-primary">7+</div>
-      </div>
-      <div class="stat">
-        <div class="stat-title">Publications</div>
-        <div class="stat-value text-secondary">2</div>
-      </div>
-      <div class="stat">
-        <div class="stat-title">DOE Prize Won</div>
-        <div class="stat-value text-accent">$50k</div>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <div class="text-3xl w-full font-bold mb-2 border-l-4 border-primary pl-3 reveal">Awards</div>
-  </div>
-
-  {
-    last_awards.map((award, i) => (
-        <>
-          <HorizontalCard
-              title={award.data.title}
-              img={award.data.heroImage}
-              desc={award.data.description}
-              url={"/award/" + award.id}
-              target="_self"
-              badge={award.data.badge}
-              index={i}
-          />
-          <div class="divider my-0" />
-        </>
-    ))
-  }
-
-  <div>
-    <div class="text-3xl w-full font-bold mb-5 mt-10 border-l-4 border-primary pl-3 reveal">Projects</div>
-  </div>
-
-  {
-    last_projects.map((project, i) => (
-        <>
-          <HorizontalCard
-              title={project.data.title}
-              img={project.data.heroImage}
-              desc={project.data.description}
-              url={"/project/" + project.id}
-              target="_self"
-              badge={project.data.badge}
-              video={project.data.video}
-              video_title={project.data.video_title}
-              index={i}
-          />
-          <div class="divider my-0" />
-        </>
-    ))
-  }
-
-  <div>
-    <div class="text-3xl w-full font-bold mb-5 mt-10 border-l-4 border-primary pl-3 reveal">Blogs</div>
-  </div>
-
-  {
-    last_posts.map((post, i) => (
-      <>
-        <HorizontalCard
-          title={post.data.title}
-          img={post.data.heroImage}
-          desc={post.data.description}
-          url={"/blog/" + post.id}
-          target="_self"
-          badge={post.data.badge}
-          index={i}
-        />
-        <div class="divider my-0" />
-      </>
-    ))
-  }
-
-  <div>
-    <div class="text-3xl w-full font-bold mb-5 mt-10 border-l-4 border-primary pl-3 reveal">Publications</div>
-  </div>
-
-  {
-    publications.map((pub, i) => (
-      <>
-        <HorizontalCard
-          title={pub.title}
-          img={pub.img}
-          desc={pub.desc}
-          url={pub.url}
-          index={i}
-        />
-        <div class="divider my-0" />
-      </>
-    ))
-  }
-
+<BaseLayout fullWidth={true} sideBarActiveItemID="home">
+  <TopNav />
+  <HeroScene />
+  <OrbBackground />
+  <AboutSection />
+  <ExperienceTimeline />
+  <SkillGroups />
+  <ProjectSwap projects={projects} />
+  <PublicationsAwards publications={publications} />
+  <ContactSection />
 </BaseLayout>
+
+<script>
+  import "../scripts/home-anim.ts";
+</script>

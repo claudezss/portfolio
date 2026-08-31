@@ -1,0 +1,28 @@
+---
+const roles = ["Senior Software Engineer", "Machine Learning Engineer", "Electrical Engineer, P.Eng."];
+---
+
+<header class="home-hero" id="top">
+  <canvas id="grid-canvas"></canvas>
+  <div class="hero-fade"></div>
+  <div class="home-wrap home-hero-content">
+    <div class="hero-kicker">Power Systems &times; Machine Learning</div>
+    <h1 class="hero-name">
+      <span id="scramble-name">Yan (Claude) Zhang</span><span class="peng">P.Eng.</span>
+    </h1>
+    <div class="hero-role">
+      <span id="role-text" data-roles={JSON.stringify(roles)}></span><span class="cursor">&#9612;</span>
+    </div>
+    <p class="hero-pitch">
+      I build <strong>intelligent software for the electric grid</strong> &mdash; combining
+      machine learning, optimization, and deep power-systems expertise to help create a
+      <strong>sustainable, energy-efficient future</strong>.
+    </p>
+    <div class="btn-row">
+      <a class="home-btn btn-primary-glow" href="https://www.linkedin.com/in/yan-zhang-p-eng-a21428113/" target="_blank" rel="noopener">Let's connect &#8599;</a>
+      <a class="home-btn btn-ghost-glow" href="https://github.com/claudezss" target="_blank" rel="noopener">GitHub</a>
+      <a class="home-btn btn-ghost-glow" href="#projects">View work &#8595;</a>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">&#9662;</div>
+</header>

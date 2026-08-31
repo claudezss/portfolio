@@ -1,0 +1,19 @@
+---
+const links = [
+  { href: "#about", label: "About" },
+  { href: "#experience", label: "Experience" },
+  { href: "#skills", label: "Skills" },
+  { href: "#projects", label: "Projects" },
+  { href: "#publications", label: "Publications" },
+  { href: "#contact", label: "Contact" },
+];
+---
+
+<nav class="home-nav" id="home-nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top"><span class="dot"></span>claudezss.com</a>
+    <div class="nav-links">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </div>
+  </div>
+</nav>

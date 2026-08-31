@@ -6,7 +6,7 @@ import SideBar from "../components/SideBar.astro";
 
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 
-const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSidebar = true, sideBarActiveItemID, dimBackground = false } = Astro.props;
+const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSidebar = true, sideBarActiveItemID, dimBackground = false, fullWidth = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -15,6 +15,9 @@ const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSideba
     <BaseHead title={title} description={description} image={image} />
   </head>
   <body>
+    {fullWidth ? (
+      <slot />
+    ) : (
     <div class="bg-base-100 drawer lg:drawer-open">
       <input id="my-drawer" type="checkbox" class="drawer-toggle" />
       <div class={`drawer-content bg-base-100 ${dimBackground ? "bg-circuit-subtle" : "bg-circuit"}`}>
@@ -28,6 +31,7 @@ const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSideba
       </div>
       {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
     </div>
+    )}
     <script>
       function initReveal() {
         const els = document.querySelectorAll('.reveal:not(.is-visible)');

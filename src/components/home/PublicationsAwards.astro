@@ -1,0 +1,46 @@
+---
+export interface Publication {
+  year: string;
+  title: string;
+  venue: string;
+  url: string;
+}
+
+const { publications } = Astro.props as { publications: Publication[] };
+---
+
+<section class="home-section" id="publications">
+  <div class="home-wrap">
+    <div class="sec-head reveal"><span class="idx">05</span><h2 class="shiny">Publications &amp; Awards</h2></div>
+
+    {publications.map((pub, i) => (
+      <a class="pub reveal" data-d={i === 0 ? undefined : String(i)} href={pub.url} target="_blank" rel="noopener">
+        <div class="year">{pub.year}</div>
+        <div>
+          <h3>{pub.title}</h3>
+          <div class="venue">{pub.venue}</div>
+        </div>
+      </a>
+    ))}
+
+    <div class="award-card reveal" style="margin-top: 28px;">
+      <div class="trophy">
+        <svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+          <path d="M4 22h16" />
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+        </svg>
+      </div>
+      <h3>U.S. DOE &mdash; 3D Solar Visibility Prize</h3>
+      <p>
+        Team ThinkLabs AI won <span class="amount">$50,000</span> in the American-Made
+        Data-Driven Distributed (3D) Solar Visibility Prize for one of the most accurate
+        AI-based distribution system state estimation algorithms, benchmarked over 14 days
+        on two distribution networks via the OEDI SI platform.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,58 @@
+---
+const groups = [
+  {
+    name: "Power Systems",
+    icon: "zap",
+    skills: ["AC OPF", "DSSE", "GAMS", "Optimization", "DERMS", "Power Flow"],
+  },
+  {
+    name: "Machine Learning",
+    icon: "cpu",
+    skills: ["PyTorch", "PyG", "GNNs", "Ray.io", "RL", "LLM Agents"],
+  },
+  {
+    name: "Software & Infra",
+    icon: "terminal",
+    skills: ["Python", "Rust", "React", "FastAPI", "Kafka", "Docker", "K8s", "AWS · GCP · Azure", "CI/CD"],
+  },
+];
+---
+
+<section class="home-section" id="skills">
+  <div class="home-wrap">
+    <div class="sec-head reveal"><span class="idx">03</span><h2 class="shiny">Skills</h2></div>
+    <div class="skills-grid">
+      {groups.map((group, i) => (
+        <div class="skill-group reveal" data-d={i === 0 ? undefined : String(i)}>
+          <h3>
+            <span class="ico">
+              {group.icon === "zap" && (
+                <svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              )}
+              {group.icon === "cpu" && (
+                <svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="4" y="4" width="16" height="16" rx="2" />
+                  <rect x="9" y="9" width="6" height="6" />
+                  <path d="M9 2v2" /><path d="M15 2v2" /><path d="M9 20v2" /><path d="M15 20v2" />
+                  <path d="M2 9h2" /><path d="M2 15h2" /><path d="M20 9h2" /><path d="M20 15h2" />
+                </svg>
+              )}
+              {group.icon === "terminal" && (
+                <svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="4 17 10 11 4 5" />
+                  <line x1="12" y1="19" x2="20" y2="19" />
+                </svg>
+              )}
+            </span>
+            {group.name}
+          </h3>
+          <div class="chips">
+            {group.skills.map((skill) => <span class="chip">{skill}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
