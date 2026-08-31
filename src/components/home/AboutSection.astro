@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets";
+import yanImage from "../../imgs/yan.jpeg";
+---
+
+<section class="home-section" id="about">
+  <div class="home-wrap">
+    <div class="sec-head reveal"><span class="idx">01</span><h2 class="shiny">About</h2></div>
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <Image src={yanImage} alt="Yan Zhang" width={336} height={336} format="webp" />
+      </div>
+      <div class="about-text reveal" data-d="1">
+        <p>
+          I'm a <strong>software engineer, ML engineer, and licensed electrical engineer (P.Eng.)</strong>
+          specializing in the dynamic realm of power systems. My work sits at the intersection of
+          two disciplines: deep expertise in grid physics and optimization, and modern machine
+          learning at production scale.
+        </p>
+        <p>
+          Currently at <strong>ThinkLabs AI</strong>, I develop graph neural networks that estimate
+          the real-time state of electric distribution grids. Before that, I spent five years
+          building <strong>GE's GridOS-DERMS</strong> &mdash; optimization and power-flow software that
+          utilities use to manage distributed energy resources.
+        </p>
+        <p>
+          MEng in ECE at the <strong>University of Toronto</strong> (2023&ndash;2026) &middot;
+          BE in ECE from Western University (2013&ndash;2017).
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

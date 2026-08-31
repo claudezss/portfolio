@@ -1,0 +1,35 @@
+---
+// Anchor links scroll within the home page; page links reach the rest of the
+// site. Page links stay visible on small screens so the home page is never a
+// dead end on mobile, where the section anchors are hidden.
+const sections = [
+  { href: "#about", label: "About" },
+  { href: "#experience", label: "Experience" },
+  { href: "#skills", label: "Skills" },
+  { href: "#projects", label: "Projects" },
+  { href: "#publications", label: "Publications" },
+  { href: "#writing", label: "Writing" },
+  { href: "#contact", label: "Contact" },
+];
+
+const pages = [
+  { href: "/blog/", label: "Blog" },
+  { href: "/project/", label: "Projects" },
+  { href: "/award/", label: "Awards" },
+  { href: "/cv", label: "CV" },
+];
+---
+
+<nav class="home-nav" id="home-nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top"><span class="dot"></span>claudezss.com</a>
+    <div class="nav-groups">
+      <div class="nav-links">
+        {sections.map((link) => <a href={link.href}>{link.label}</a>)}
+      </div>
+      <div class="nav-pages">
+        {pages.map((link) => <a href={link.href}>{link.label}</a>)}
+      </div>
+    </div>
+  </div>
+</nav>

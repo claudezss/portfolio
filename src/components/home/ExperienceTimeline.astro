@@ -1,0 +1,28 @@
+---
+import { roles } from "../../data/experience";
+---
+
+<section class="home-section" id="experience">
+  <div class="home-wrap">
+    <div class="sec-head reveal">
+      <span class="idx">02</span>
+      <h2 class="shiny">Experience</h2>
+      <a class="sec-link" href="/cv">full CV &rarr;</a>
+    </div>
+    <div class="home-timeline" id="timeline">
+      <div class="tl-track"><div id="tl-progress"></div></div>
+      {roles.map((role) => (
+        <div class="tl-item">
+          <div class="tl-card">
+            <div class="period">{role.period}</div>
+            <h3>{role.title}</h3>
+            <div class="org">{role.org}</div>
+            <ul>
+              {role.highlights.map((point) => <li set:html={point} />)}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

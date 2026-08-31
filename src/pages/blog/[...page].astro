@@ -1,27 +1,21 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import HorizontalCard from "../../components/HorizontalCard.astro";
-import {getCollection} from "astro:content";
+import TagFilter from "../../components/blog/TagFilter.astro";
+import { getCollection } from "astro:content";
+import { groupPostsByTag } from "../../utils/tags";
+import type { GetStaticPaths } from "astro";
 
-export async function getStaticPaths({paginate}) {
+export const getStaticPaths = (async ({ paginate }) => {
     const posts = await getCollection("blog");
     posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-    return paginate(posts, {pageSize: 10});
-}
+    return paginate(posts, { pageSize: 10 });
+}) satisfies GetStaticPaths;
 
-const {page} = Astro.props;
-const allPosts = await getCollection("blog");
-allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const { page } = Astro.props;
 
-let allTags = [];
-allPosts.forEach((entry) => {
-    entry.data.tags.forEach(tag => {
-        if (!allTags.includes(tag)) {
-            allTags.push(tag);
-        }
-    });
-});
-const allTagsSet = Array.from(new Set(allTags)).sort();
+// Tag chips are built from every post, not just this page of them.
+const tags = groupPostsByTag(await getCollection("blog"));
 ---
 
 <BaseLayout title="Blog" sideBarActiveItemID="blog">
@@ -29,125 +23,50 @@ const allTagsSet = Array.from(new Set(allTags)).sort();
         <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Blog</div>
     </div>
 
-    <!-- Tag Filter Section -->
-    <div class="mb-6 reveal">
-        <div class="text-lg font-semibold mb-3">Filter by tags:</div>
-        <div class="flex flex-wrap gap-2 mb-4">
-            <button
-                id="clear-filter"
-                class="badge badge-primary cursor-pointer transition-colors duration-200"
-            >
-                All Posts
-            </button>
-            {
-                allTagsSet.map(tag => (
-                    <button
-                        class="badge badge-outline cursor-pointer tag-filter transition-colors duration-200"
-                        data-tag={tag}
-                    >
-                        {tag}
-                    </button>
-                ))
-            }
-        </div>
-    </div>
+    <TagFilter tags={tags} />
 
-    <!-- Posts Container -->
-    <div id="posts-container">
-        {
-            allPosts.length === 0 ? (
-                <div class="glass-card border-l-4 border-secondary w-full p-4 min-w-full">
-                    <p class="font-bold">Sorry!</p>
-                    <p>There are no blog posts to show at the moment. Check back later!</p>
-                </div>
-            ) : (
-                <ul id="posts-list">
-                    {allPosts.map((post, i) => (
-                        <li class="post-item" data-tags={post.data.tags.join(',')}>
-                            <HorizontalCard
-                                title={post.data.title}
-                                img={post.data.heroImage}
-                                desc={post.data.description}
-                                url={"/blog/" + post.id}
-                                tags={post.data.tags}
-                                target="_self"
-                                badge={post.data.badge}
-                                index={i}
-                            />
-                            <div class="divider my-0"/>
-                        </li>
-                    ))}
-                </ul>
-            )
-        }
-    </div>
+    {
+        page.data.length === 0 ? (
+            <div class="glass-card border-l-4 border-secondary w-full p-4 min-w-full">
+                <p class="font-bold">Sorry!</p>
+                <p>There are no blog posts to show at the moment. Check back later!</p>
+            </div>
+        ) : (
+            <ul>
+                {page.data.map((post, i) => (
+                    <li>
+                        <HorizontalCard
+                            title={post.data.title}
+                            img={post.data.heroImage}
+                            desc={post.data.description}
+                            url={"/blog/" + post.id}
+                            tags={post.data.tags}
+                            target="_self"
+                            badge={post.data.badge}
+                            index={i}
+                        />
+                        <div class="divider my-0" />
+                    </li>
+                ))}
+            </ul>
+        )
+    }
 
-    <!-- No Results Message -->
-    <div id="no-results" class="glass-card border-l-4 border-secondary w-full p-4 min-w-full hidden">
-        <p class="font-bold">No posts found</p>
-        <p>Try selecting a different tag or view all posts.</p>
-    </div>
-
-    <script>
-        function filterPosts(selectedTag) {
-            const postItems = document.querySelectorAll('.post-item');
-            const noResults = document.getElementById('no-results');
-            const tagFilters = document.querySelectorAll('.tag-filter');
-            const clearFilter = document.getElementById('clear-filter');
-            let visibleCount = 0;
-
-            // Update button styles
-            tagFilters.forEach(btn => {
-                if (btn.dataset.tag === selectedTag) {
-                    btn.className = 'badge badge-primary cursor-pointer tag-filter transition-colors duration-200';
-                } else {
-                    btn.className = 'badge badge-outline cursor-pointer tag-filter transition-colors duration-200';
-                }
-            });
-
-            if (selectedTag === '') {
-                clearFilter.className = 'badge badge-primary cursor-pointer transition-colors duration-200';
-            } else {
-                clearFilter.className = 'badge badge-outline cursor-pointer transition-colors duration-200';
-            }
-
-            // Filter posts
-            postItems.forEach(item => {
-                const postTags = item.dataset.tags.split(',');
-                
-                if (selectedTag === '' || postTags.includes(selectedTag)) {
-                    item.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-
-            // Show/hide no results message
-            if (visibleCount === 0) {
-                noResults.classList.remove('hidden');
-            } else {
-                noResults.classList.add('hidden');
-            }
-        }
-
-        // Initialize with all posts visible and set up event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            filterPosts('');
-            
-            // Add event listeners to filter buttons
-            const clearFilter = document.getElementById('clear-filter');
-            const tagFilters = document.querySelectorAll('.tag-filter');
-            
-            clearFilter.addEventListener('click', function() {
-                filterPosts('');
-            });
-            
-            tagFilters.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    filterPosts(this.dataset.tag);
-                });
-            });
-        });
-    </script>
+    {
+        (page.url.prev || page.url.next) && (
+            <nav class="flex justify-between items-center mt-8 reveal" aria-label="Pagination">
+                {page.url.prev ? (
+                    <a class="btn btn-outline btn-sm" href={page.url.prev}>&larr; Newer</a>
+                ) : (
+                    <span />
+                )}
+                <span class="text-sm opacity-70">Page {page.currentPage} of {page.lastPage}</span>
+                {page.url.next ? (
+                    <a class="btn btn-outline btn-sm" href={page.url.next}>Older &rarr;</a>
+                ) : (
+                    <span />
+                )}
+            </nav>
+        )
+    }
 </BaseLayout>

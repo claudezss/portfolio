@@ -1,0 +1,94 @@
+---
+import { getCollection } from "astro:content";
+
+// Driven by the project content collection: adding a markdown file under
+// src/content/project/ puts it on the home page automatically. `order` in the
+// frontmatter pins the sequence; anything without one falls to the end, newest
+// first.
+const all = (await getCollection("project")).sort((a, b) => {
+  const ao = a.data.order ?? Number.MAX_SAFE_INTEGER;
+  const bo = b.data.order ?? Number.MAX_SAFE_INTEGER;
+  if (ao !== bo) return ao - bo;
+  return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+});
+const featured = all.filter((p) => p.data.featured !== false).slice(0, 4);
+
+const icons = ["zap", "sun", "flame", "car"] as const;
+const projects = featured.map((entry, i) => ({
+  id: entry.id,
+  title: entry.data.title.trim(),
+  desc: entry.data.description,
+  tag: entry.data.tag ?? "Project",
+  icon: entry.data.icon ?? icons[i % icons.length],
+  repoUrl: entry.data.repoUrl,
+}));
+---
+
+<section class="home-section" id="projects">
+  <div class="home-wrap">
+    <div class="sec-head reveal">
+      <span class="idx">04</span>
+      <h2 class="shiny">Projects</h2>
+      <a class="sec-link" href="/project/">all projects &rarr;</a>
+    </div>
+    <div class="swap-layout">
+      <div class="swap-intro reveal">
+        <p>
+          A decade of shipping software for the grid &mdash; <strong>industry products deployed at
+          real utilities</strong> and research projects exploring what AI can do for energy.
+        </p>
+        <ul class="swap-list" id="swap-list">
+          {projects.map((project, i) => (
+            <li>
+              <button type="button" data-idx={String(i)} class={i === 0 ? "active" : undefined}>
+                {project.title}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="swap-stage reveal" data-d="1" id="swap-stage">
+        {projects.map((project) => (
+          <div class="swap-card">
+            <span class="card-ico">
+              {project.icon === "zap" && (
+                <svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              )}
+              {project.icon === "sun" && (
+                <svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2" /><path d="M12 20v2" />
+                  <path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" />
+                  <path d="M2 12h2" /><path d="M20 12h2" />
+                  <path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" />
+                </svg>
+              )}
+              {project.icon === "flame" && (
+                <svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+                </svg>
+              )}
+              {project.icon === "car" && (
+                <svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                  <circle cx="7" cy="17" r="2" /><path d="M9 17h6" /><circle cx="17" cy="17" r="2" />
+                </svg>
+              )}
+            </span>
+            <div class="tag">{project.tag}</div>
+            <h3>{project.title}</h3>
+            <p>{project.desc}</p>
+            <div class="links">
+              <a href={`/project/${project.id}`}>case study &rarr;</a>
+              {project.repoUrl && (
+                <a href={project.repoUrl} target="_blank" rel="noopener">github &rarr;</a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

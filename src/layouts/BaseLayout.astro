@@ -3,10 +3,11 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import SideBar from "../components/SideBar.astro";
+import OrbBackground from "../components/OrbBackground.astro";
 
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 
-const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSidebar = true, sideBarActiveItemID, dimBackground = false } = Astro.props;
+const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSidebar = true, sideBarActiveItemID, dimBackground = false, fullWidth = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -15,9 +16,13 @@ const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSideba
     <BaseHead title={title} description={description} image={image} />
   </head>
   <body>
-    <div class="bg-base-100 drawer lg:drawer-open">
+    <OrbBackground />
+    {fullWidth ? (
+      <slot />
+    ) : (
+    <div class="drawer lg:drawer-open site-shell">
       <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-      <div class={`drawer-content bg-base-100 ${dimBackground ? "bg-circuit-subtle" : "bg-circuit"}`}>
+      <div class={`drawer-content ${dimBackground ? "bg-circuit-subtle" : "bg-circuit"}`}>
         <Header title={SITE_TITLE} />
         <div class="md:flex md:justify-center">
           <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">
@@ -28,6 +33,7 @@ const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSideba
       </div>
       {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
     </div>
+    )}
     <script>
       function initReveal() {
         const els = document.querySelectorAll('.reveal:not(.is-visible)');
@@ -49,6 +55,9 @@ const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSideba
         els.forEach((el) => io.observe(el));
       }
       document.addEventListener('astro:page-load', initReveal);
+    </script>
+    <script>
+      import "../scripts/orb-background.ts";
     </script>
   </body>
 </html>

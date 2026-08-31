@@ -1,6 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TimeLineElement from "../components/cv/TimeLine.astro";
+import { education, roles } from "../data/experience";
+
+const skills = [
+  "Python", "Pytorch", "PYG", "Ray.io", "React", "GAMS", "AWS/GCP/Azure",
+  "flask/fastapi", "Kafka", "Docker", "K8S", "System Design", "CI/CD",
+  "Power System", "Optimization", "Machine Learning", "Github/Gitlab", "AC OPF", "Rust",
+];
 ---
 
 <BaseLayout title="Resume" sideBarActiveItemID="cv">
@@ -10,20 +17,15 @@ import TimeLineElement from "../components/cv/TimeLine.astro";
     </div>
 
     <div class="time-line-container grid gap-6 mb-10">
-        <TimeLineElement
-                position="Master of Engineering - MEng, ECE"
-                company="University of Toronto, Toronto, Canada"
-                startDate="2023"
-                endDate="2026"
-                logo="/uoft.png"
-        />
-        <TimeLineElement
-                position="Bachelor of Engineering - BE, ECE"
-                company="University of Western Ontario, London, Canada"
-                startDate="2013"
-                endDate="2017"
-                logo="/uwo.png"
-        />
+        {education.map((item) => (
+            <TimeLineElement
+                position={item.degree}
+                company={item.school}
+                startDate={item.startDate}
+                endDate={item.endDate}
+                logo={item.logo}
+            />
+        ))}
     </div>
 
     <div class="mb-5">
@@ -31,113 +33,20 @@ import TimeLineElement from "../components/cv/TimeLine.astro";
     </div>
 
     <div class="time-line-container mb-10">
-        <TimeLineElement
-                position="Senior Software Engineer"
-                company="ThinkLabs AI Inc."
-                startDate="2024"
-                endDate="Present"
-                logo="/thinklabs_ai_logo.png"
-        >
-            <ul class="list-disc mx-6 mb-10 grid gap-2">
-                <li>
-                    Developed and optimized Graph Neural Network (GNN)-based AI models for Distribution System State
-                    Estimation (DSSE), improving accuracy and scalability.
-                </li>
-                <li>
-                    Designed and implemented Temporal-Spatial Graph Neural Network (TSGNN)-based models for grid
-                    measurement anomaly detection, enhancing grid reliability and predictive capabilities.
-                </li>
-                <li>
-                    Created advanced Heterogeneous Graph Neural Network (HGNN)-based AI models for time-series power
-                    flow analysis.
-                </li>
-                <li>
-                    Built and enhanced scalable data generation, model training, and inference pipelines using Ray.io
-                    and Kubernetes (K8s) to streamline end-to-end workflows and ensure high-performance deployment.
-                </li>
-            </ul>
-
-        </TimeLineElement>
-
-        <TimeLineElement
-                position="Senior Software Developer"
-                company="GridOS-DERMS, GE Digital, GE Vernova"
-                startDate="2023"
-                endDate="2024"
-                logo="/gevernova_logo.jpeg"
-        >
-            My responsibilities include all items outlined in the Software Developer role at GridOS-DERMS, GE Digital,
-            GE Vernova, as well as:
-
-            <ul class="list-disc mx-6 mb-10 grid gap-2">
-                <li>Assisting the product manager in defining milestone scopes and refining acceptance criteria for
-                    features.
-                </li>
-                <li>Breaking down large features into smaller, manageable tasks and providing time estimation to the
-                    product manager.
-                </li>
-                <li>Collaborating with cross-functional teams, including architects, product managers, and quality
-                    assurance engineers to design integration solutions.
-                </li>
-                <li>Contributing to the evaluation of new tools and frameworks that have the potential to enhance both
-                    application performance and the overall development process.
-                </li>
-                <li>Providing mentorship and guidance to junior developers, addressing their questions in the workplace,
-                    and actively sharing knowledge with them.
-                </li>
-            </ul>
-
-        </TimeLineElement>
-
-        <TimeLineElement
-                position="Software Developer"
-                company="GridOS-DERMS, GE Digital, GE Vernova"
-                startDate="2019"
-                endDate="2023"
-                logo="/gevernova_logo.jpeg"
-        >
-            <ul class="list-disc mx-6 mb-10 grid gap-2">
-                <li>Design, implement and improve mathematical optimization models to simulate electric power grid with
-                    distributed energy resources (DERs) by using GAMS
-                </li>
-                <li>
-                    Maintain `optimization engine`: the python package to run power flow analysis
-                </li>
-                <li>
-                    Design, implement and improve OPF(optimal power flow) objectives,
-                    e.g : cost minimization, operational envelope, bid fulfillment, etc
-                </li>
-                <li>
-                    Design, implement and improve RESTful APIs on micro-service to run powerflow analyses. (flask)
-                </li>
-                <li>
-                    Design, implement and improve Queue-based micro-service to run powerflow analyses. (Kafka)
-                </li>
-                <li>
-                    Design, implement and improve benchmark testing tools
-                </li>
-                <li>
-                    Write documentations and white papers for the optimization models and applications developed
-                </li>
-                <li>
-                    Analysis and validate optimal power flow results of customers' networks, and compare results with
-                    published data from IEEE Power & Energy Society (IEEE PES)
-                </li>
-            </ul>
-
-        </TimeLineElement>
-
-        <TimeLineElement
-                position="Full Stack Developer"
-                company="GreenfieldSCM, Supply Chain Management"
-                startDate="2017"
-                endDate="2019"
-                logo="/greenfieldscm.jpeg"
-        >
-            Developing Visualized Supply Chain Management System, include tracking, payment,
-            and invoice generation functions. This web app is built by React (for frontend),
-            MYSQL and Django (for backend).
-        </TimeLineElement>
+        {roles.map((role) => (
+            <TimeLineElement
+                position={role.position}
+                company={role.company}
+                startDate={role.startDate}
+                endDate={role.endDate}
+                logo={role.logo}
+            >
+                {role.intro && <p>{role.intro}</p>}
+                <ul class="list-disc mx-6 mb-10 grid gap-2">
+                    {role.details.map((detail) => <li set:html={detail} />)}
+                </ul>
+            </TimeLineElement>
+        ))}
     </div>
 
     <div class="mb-5">
@@ -145,11 +54,7 @@ import TimeLineElement from "../components/cv/TimeLine.astro";
     </div>
 
     <div class="flex flex-wrap gap-2 mx-6 mb-10 reveal">
-        {[
-            "Python", "Pytorch", "PYG", "Ray.io", "React", "GAMS", "AWS/GCP/Azure",
-            "flask/fastapi", "Kafka", "Docker", "K8S", "System Design", "CI/CD",
-            "Power System", "Optimization", "Machine Learning", "Github/Gitlab", "AC OPF", "Rust",
-        ].map((skill) => (
+        {skills.map((skill) => (
             <div class="badge badge-outline transition-colors duration-200 hover:border-primary hover:text-primary">{skill}</div>
         ))}
     </div>
