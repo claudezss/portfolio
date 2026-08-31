@@ -1,55 +1,56 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import HorizontalCard from "../../../components/HorizontalCard.astro";
-import {getCollection} from "astro:content";
+import TagFilter from "../../../components/blog/TagFilter.astro";
+import { getCollection } from "astro:content";
+import { groupPostsByTag } from "../../../utils/tags";
+import type { GetStaticPaths } from "astro";
 
-export async function getStaticPaths() {
-    const postEntries = await getCollection('blog');
-    let tags = [];
-    postEntries.forEach((entry) => {
-        entry.data.tags.forEach(tag => tags.push(tag))
-    })
-    return tags.map(
-        tag => {
-            let posts = postEntries.filter(post => post.data.tags.includes(tag));
-            return {
-                params: {tag: tag}, props: {posts}
-            }
-        });
-}
+export const getStaticPaths = (async () => {
+    const groups = groupPostsByTag(await getCollection("blog"));
+    // One route per unique slug — the raw tag list contains repeats, which
+    // previously produced duplicate routes with spaces and "&" in the path.
+    return groups.map((group) => ({
+        params: { tag: group.slug },
+        props: { group, groups },
+    }));
+}) satisfies GetStaticPaths;
 
-const {tag} = Astro.params;
-const {posts} = Astro.props;
+const { group, groups } = Astro.props;
+const countLabel = `${group.posts.length} ${group.posts.length === 1 ? "post" : "posts"}`;
 ---
 
-<BaseLayout title="Blog" sideBarActiveItemID="blog">
+<BaseLayout
+    title={`Posts tagged "${group.tag}"`}
+    description={`Blog posts tagged ${group.tag}`}
+    sideBarActiveItemID="blog"
+>
     <div class="mb-5">
-        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Blog</div>
+        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">
+            Blog
+        </div>
+        <p class="mt-3 opacity-70 reveal">
+            Showing {countLabel} tagged <span class="text-primary font-semibold">{group.tag}</span>. <a class="link link-hover" href="/blog/">Clear filter</a>
+        </p>
     </div>
 
-    {
-        posts.length === 0 ? (
-                <div class="glass-card border-l-4 border-secondary w-full p-4 min-w-full">
-                    <p class="font-bold">Sorry!</p>
-                    <p>There are no blog posts to show at the moment. Check back later!</p>
-                </div>
-        ) : (
-        <ul>
-            {posts.map((post, i) =>
-                    <>
-                        <HorizontalCard
-                                title={post.data.title}
-                                img={post.data.heroImage}
-                                desc={post.data.description}
-                                url={"/blog/" + post.id}
-                                target="_self"
-                                badge={post.data.badge}
-                                index={i}
-                        />
-                        <div class="divider my-0"/>
-                    </>
-            )}
-        </ul>
-        )
-        }
-        </BaseLayout>
+    <TagFilter tags={groups} activeSlug={group.slug} />
+
+    <ul>
+        {group.posts.map((post, i) => (
+            <li>
+                <HorizontalCard
+                    title={post.data.title}
+                    img={post.data.heroImage}
+                    desc={post.data.description}
+                    url={"/blog/" + post.id}
+                    tags={post.data.tags}
+                    target="_self"
+                    badge={post.data.badge}
+                    index={i}
+                />
+                <div class="divider my-0" />
+            </li>
+        ))}
+    </ul>
+</BaseLayout>
