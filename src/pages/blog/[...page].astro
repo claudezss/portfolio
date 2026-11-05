@@ -1,72 +1,35 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import HorizontalCard from "../../components/HorizontalCard.astro";
 import TagFilter from "../../components/blog/TagFilter.astro";
-import { getCollection } from "astro:content";
+import PostList from "../../components/blog/PostList.astro";
 import { groupPostsByTag } from "../../utils/tags";
+import { getPosts } from "../../utils/collections";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
-    const posts = await getCollection("blog");
-    posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-    return paginate(posts, { pageSize: 10 });
+  return paginate(await getPosts(), { pageSize: 20 });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-
-// Tag chips are built from every post, not just this page of them.
-const tags = groupPostsByTag(await getCollection("blog"));
+const all = await getPosts();
+// Tag chips are built from every post, not only this page of them.
+const tags = groupPostsByTag(all);
 ---
 
-<BaseLayout title="Blog" sideBarActiveItemID="blog">
-    <div class="mb-5">
-        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Blog</div>
-    </div>
+<BaseLayout title="Writing" description="Notes on machine learning, lectures, and small Python tools." nav="writing">
+  <div class="page-head">
+    <h1>Writing</h1>
+    <p>Notes on machine learning, lectures I taught, and small Python tools.</p>
+    <TagFilter tags={tags} total={all.length} />
+  </div>
 
-    <TagFilter tags={tags} />
+  <PostList posts={page.data} />
 
-    {
-        page.data.length === 0 ? (
-            <div class="glass-card border-l-4 border-secondary w-full p-4 min-w-full">
-                <p class="font-bold">Sorry!</p>
-                <p>There are no blog posts to show at the moment. Check back later!</p>
-            </div>
-        ) : (
-            <ul>
-                {page.data.map((post, i) => (
-                    <li>
-                        <HorizontalCard
-                            title={post.data.title}
-                            img={post.data.heroImage}
-                            desc={post.data.description}
-                            url={"/blog/" + post.id}
-                            tags={post.data.tags}
-                            target="_self"
-                            badge={post.data.badge}
-                            index={i}
-                        />
-                        <div class="divider my-0" />
-                    </li>
-                ))}
-            </ul>
-        )
-    }
-
-    {
-        (page.url.prev || page.url.next) && (
-            <nav class="flex justify-between items-center mt-8 reveal" aria-label="Pagination">
-                {page.url.prev ? (
-                    <a class="btn btn-outline btn-sm" href={page.url.prev}>&larr; Newer</a>
-                ) : (
-                    <span />
-                )}
-                <span class="text-sm opacity-70">Page {page.currentPage} of {page.lastPage}</span>
-                {page.url.next ? (
-                    <a class="btn btn-outline btn-sm" href={page.url.next}>Older &rarr;</a>
-                ) : (
-                    <span />
-                )}
-            </nav>
-        )
-    }
+  {(page.url.prev || page.url.next) && (
+    <nav class="pagination" aria-label="Pagination">
+      {page.url.prev ? <a class="link" href={page.url.prev}>&larr; Newer</a> : <span />}
+      <span>Page {page.currentPage} of {page.lastPage}</span>
+      {page.url.next ? <a class="link" href={page.url.next}>Older &rarr;</a> : <span />}
+    </nav>
+  )}
 </BaseLayout>

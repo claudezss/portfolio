@@ -1,30 +1,30 @@
 ---
-import { CollectionEntry, getCollection, render } from 'astro:content';
-import { AwardSchema } from '../../content.config';
-import AwardLayout from '../../layouts/AwardLayout.astro';
+import { render, type CollectionEntry } from "astro:content";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { getAwards, longDate } from "../../utils/collections";
 
 export async function getStaticPaths() {
-    const projectEntries = await getCollection('award');
-    return projectEntries.map(entry => ( {
-        params: { slug: entry.id }, props: { entry },
-    } ));
+  const awards = await getAwards();
+  return awards.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
 interface Props {
-    entry: CollectionEntry<"award">;
+  entry: CollectionEntry<"award">;
 }
 
 const { entry } = Astro.props;
-const award : AwardSchema = entry.data;
+const award = entry.data;
 const { Content } = await render(entry);
 ---
 
-<AwardLayout
-    title={award.title}
-    description={award.description}
-    pubDate={award.pubDate}
-    heroImage={award.heroImage}
-    updatedDate={award.updatedDate}
-    badge={award.badge}>
-    <Content/>
-</AwardLayout>
+<ArticleLayout
+  title={award.title}
+  description={award.description}
+  nav="home"
+  back={{ href: "/award/", label: "All awards" }}
+  tag="Award"
+  meta={[longDate(award.pubDate)]}
+  image={award.heroImage}
+>
+  <Content />
+</ArticleLayout>

@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Icon from "./Icon.astro";
+
+interface Props {
+  project: CollectionEntry<"project">;
+}
+
+const { project } = Astro.props;
+const { title, description, tag, repoUrl } = project.data;
+---
+
+<article class="card">
+  {tag && <span class="tag">{tag}</span>}
+  <h3><a href={`/project/${project.id}`}>{title.trim()}</a></h3>
+  <p>{description}</p>
+  <div class="foot">
+    <a href={`/project/${project.id}`}>Case study</a>
+    {repoUrl && (
+      <a href={repoUrl} target="_blank" rel="noopener">Code <Icon name="arrow" /></a>
+    )}
+  </div>
+</article>

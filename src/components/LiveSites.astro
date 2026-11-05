@@ -1,0 +1,22 @@
+---
+import Icon from "./Icon.astro";
+import { sites } from "../data/sites";
+
+const host = (url: string) => new URL(url).host;
+---
+
+{sites.length > 0 && (
+  <div class="live">
+    {sites.map((site) => (
+      <a class="live-card" href={site.url} target="_blank" rel="noopener">
+        <span class="mark" aria-hidden="true">{site.name.charAt(0)}</span>
+        <span class="live-text">
+          <span class="live-name">{site.name}</span>
+          <span class="live-url">{host(site.url)}</span>
+          {site.description && <span class="live-desc">{site.description}</span>}
+        </span>
+        <Icon name="arrow" class="ext" />
+      </a>
+    ))}
+  </div>
+)}

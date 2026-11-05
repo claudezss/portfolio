@@ -1,0 +1,20 @@
+---
+import Icon from "./Icon.astro";
+import { email, social } from "../data/social";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="wrap">
+  <div class="site-footer">
+    <span>&copy; {year} Yan Zhang</span>
+    <span class="icons">
+      <a href={`mailto:${email}`} aria-label="Email" title="Email"><Icon name="mail" /></a>
+      {social.map((link) => (
+        <a href={link.href} target="_blank" rel="noopener" aria-label={link.label} title={link.label}>
+          <Icon name={link.icon} />
+        </a>
+      ))}
+    </span>
+  </div>
+</footer>

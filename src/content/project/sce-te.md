@@ -4,7 +4,6 @@ description: "SCE Transactive Energy Management Software"
 pubDate: "Sep 10 2020"
 heroImage: "/project.png"
 tag: "Industry · DOE ENERGISE"
-icon: "sun"
 featured: true
 order: 2
 ---

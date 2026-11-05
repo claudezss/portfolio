@@ -1,61 +1,57 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import TimeLineElement from "../components/cv/TimeLine.astro";
+import SectionHead from "../components/SectionHead.astro";
 import { education, roles } from "../data/experience";
-
-const skills = [
-  "Python", "Pytorch", "PYG", "Ray.io", "React", "GAMS", "AWS/GCP/Azure",
-  "flask/fastapi", "Kafka", "Docker", "K8S", "System Design", "CI/CD",
-  "Power System", "Optimization", "Machine Learning", "Github/Gitlab", "AC OPF", "Rust",
-];
+import { skillGroups } from "../data/skills";
 ---
 
-<BaseLayout title="Resume" sideBarActiveItemID="cv">
+<BaseLayout title="CV" description="Yan Zhang: software and ML engineer, P.Eng." nav="cv">
+  <div class="page-head">
+    <h1>Curriculum vitae</h1>
+    <p>Software and ML engineer, licensed P.Eng.</p>
+  </div>
 
-    <div class="mb-5">
-        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Education</div>
-    </div>
+  <section>
+    <SectionHead title="Experience" />
+    {roles.map((role) => (
+      <div class="cv-role">
+        <span class="logo"><img src={role.logo} alt="" width="32" height="32" loading="lazy" /></span>
+        <div>
+          <div class="head">
+            <div><b>{role.position}</b> <span class="org">· {role.company}</span></div>
+            <span class="when">{role.startDate} – {role.endDate}</span>
+          </div>
+          {role.intro && <p>{role.intro}</p>}
+          <ul>
+            {role.details.map((detail) => <li set:html={detail} />)}
+          </ul>
+        </div>
+      </div>
+    ))}
+  </section>
 
-    <div class="time-line-container grid gap-6 mb-10">
-        {education.map((item) => (
-            <TimeLineElement
-                position={item.degree}
-                company={item.school}
-                startDate={item.startDate}
-                endDate={item.endDate}
-                logo={item.logo}
-            />
-        ))}
-    </div>
+  <section class="section">
+    <SectionHead title="Education" />
+    {education.map((item) => (
+      <div class="cv-role">
+        <span class="logo"><img src={item.logo} alt="" width="32" height="32" loading="lazy" /></span>
+        <div class="head">
+          <div><b>{item.degree}</b> <span class="org">· {item.school}</span></div>
+          <span class="when">{item.startDate} – {item.endDate}</span>
+        </div>
+      </div>
+    ))}
+  </section>
 
-    <div class="mb-5">
-        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Experience</div>
-    </div>
-
-    <div class="time-line-container mb-10">
-        {roles.map((role) => (
-            <TimeLineElement
-                position={role.position}
-                company={role.company}
-                startDate={role.startDate}
-                endDate={role.endDate}
-                logo={role.logo}
-            >
-                {role.intro && <p>{role.intro}</p>}
-                <ul class="list-disc mx-6 mb-10 grid gap-2">
-                    {role.details.map((detail) => <li set:html={detail} />)}
-                </ul>
-            </TimeLineElement>
-        ))}
-    </div>
-
-    <div class="mb-5">
-        <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Skills</div>
-    </div>
-
-    <div class="flex flex-wrap gap-2 mx-6 mb-10 reveal">
-        {skills.map((skill) => (
-            <div class="badge badge-outline transition-colors duration-200 hover:border-primary hover:text-primary">{skill}</div>
-        ))}
-    </div>
+  <section class="section">
+    <SectionHead title="Skills" />
+    <dl class="kit">
+      {skillGroups.map((group) => (
+        <>
+          <dt>{group.name}</dt>
+          <dd class="chips">{group.skills.map((skill) => <span class="chip">{skill}</span>)}</dd>
+        </>
+      ))}
+    </dl>
+  </section>
 </BaseLayout>
