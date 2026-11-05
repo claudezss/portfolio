@@ -1,5 +1,5 @@
 ---
-title: "the U.S. Department of Energy (DOE), 3D Solar Visibility Prize"
+title: "The U.S. Department of Energy (DOE), 3D Solar Visibility Prize"
 description: "The winner of the American-Made Data-Driven Distributed (3D) Solar Visibility Prize"
 pubDate: "Nov 30 2024"
 heroImage: "https://d253pvgap36xx8.cloudfront.net/challenges/image_detail/ce6e467a0cc311efbf8d2223c61c8dc1/cdabfcf00cc311efbd639aabc808a946.jpeg"

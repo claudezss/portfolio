@@ -1,63 +1,30 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import SideBar from "../components/SideBar.astro";
-import OrbBackground from "../components/OrbBackground.astro";
-
+import SiteHeader from "../components/SiteHeader.astro";
+import type { NavId } from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 
-const { image, title = SITE_TITLE, description = SITE_DESCRIPTION, includeSidebar = true, sideBarActiveItemID, dimBackground = false, fullWidth = false } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  nav?: NavId;
+}
+
+const { title = SITE_TITLE, description = SITE_DESCRIPTION, image, nav } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en" data-theme="gridtech">
+<html lang="en">
   <head>
     <BaseHead title={title} description={description} image={image} />
   </head>
   <body>
-    <OrbBackground />
-    {fullWidth ? (
+    <SiteHeader active={nav} />
+    <main class="wrap">
       <slot />
-    ) : (
-    <div class="drawer lg:drawer-open site-shell">
-      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-      <div class={`drawer-content ${dimBackground ? "bg-circuit-subtle" : "bg-circuit"}`}>
-        <Header title={SITE_TITLE} />
-        <div class="md:flex md:justify-center">
-          <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">
-            <slot />
-          </main>
-        </div>
-        <Footer />
-      </div>
-      {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
-    </div>
-    )}
-    <script>
-      function initReveal() {
-        const els = document.querySelectorAll('.reveal:not(.is-visible)');
-        if (!('IntersectionObserver' in window)) {
-          els.forEach((el) => el.classList.add('is-visible'));
-          return;
-        }
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                io.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
-        );
-        els.forEach((el) => io.observe(el));
-      }
-      document.addEventListener('astro:page-load', initReveal);
-    </script>
-    <script>
-      import "../scripts/orb-background.ts";
-    </script>
+    </main>
+    <SiteFooter />
   </body>
 </html>

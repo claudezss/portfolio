@@ -4,7 +4,6 @@ description: "Course Project - Multi-RL Agent Cooperative Driving in HighwayEnv 
 pubDate: "Sept 14 2024"
 heroImage: "/project.png"
 tag: "Research · Multi-Agent RL"
-icon: "car"
 featured: true
 repoUrl: "https://github.com/ece1508-ai-alchemist/highway-agent-401"
 order: 4

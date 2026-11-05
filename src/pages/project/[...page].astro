@@ -1,86 +1,46 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import HorizontalCard from "../../components/HorizontalCard.astro";
-import { getCollection } from "astro:content";
+import SectionHead from "../../components/SectionHead.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import LiveSites from "../../components/LiveSites.astro";
+import { sites } from "../../data/sites";
+import { getProjects } from "../../utils/collections";
+import type { GetStaticPaths } from "astro";
 
-export async function getStaticPaths({ paginate }) {
-  const projects = await getCollection("project");
-  projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-  return paginate(projects, { pageSize: 10 });
-}
+// One page holds every project; the route keeps the old /project/ URL.
+export const getStaticPaths = (async ({ paginate }) => {
+  return paginate(await getProjects(), { pageSize: 100 });
+}) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+
+// Group by the part of `tag` before " · ", e.g. "Industry", "Research".
+const groups = new Map<string, typeof page.data>();
+for (const project of page.data) {
+  const name = project.data.tag?.split(" · ")[0] ?? "Other";
+  groups.set(name, [...(groups.get(name) ?? []), project]);
+}
 ---
 
-<BaseLayout title="Project" sideBarActiveItemID="project">
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold border-l-4 border-primary pl-3 reveal">Project</div>
+<BaseLayout title="Projects" description="Products deployed at utilities, and research on AI for energy." nav="projects">
+  <div class="page-head">
+    <h1>Projects</h1>
+    <p>Products deployed at real utilities, and research on what AI can do for energy.</p>
   </div>
 
-  {
-    page.data.length === 0 ? (
-      <div class="glass-card border-l-4 border-secondary w-full p-4 min-w-full">
-        <p class="font-bold">Sorry!</p>
-        <p>There are no project to show at the moment. Check back later!</p>
+  {[...groups].map(([name, projects]) => (
+    <section class="group">
+      <SectionHead title={name} />
+      <div class="cards">
+        {projects.map((project) => <ProjectCard project={project} />)}
       </div>
-    ) : (
-      <ul>
-        {page.data.map((project, i) => (
-          <>
-            <HorizontalCard
-              title={project.data.title}
-              img={project.data.heroImage}
-              desc={project.data.description}
-              url={"/project/" + project.id}
-              target="_self"
-              badge={project.data.badge}
-              index={i}
-            />
-            <div class="divider my-0" />
-          </>
-        ))}
-      </ul>
-    )
-  }
+    </section>
+  ))}
 
-  <div class="flex justify-between">
-    {
-      page.url.prev ? (
-        <a href={page.url.prev} class="btn btn-ghost my-10 mx-5 hover:text-primary hover:glow-primary-sm transition-all duration-300">
-          {" "}
-          <svg
-            class="h-6 w-6 fill-current md:h-8 md:w-8"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-          </svg>{" "}
-          Recent projects
-        </a>
-      ) : (
-        <div />
-      )
-    }
-    {
-      page.url.next ? (
-        <a href={page.url.next} class="btn btn-ghost my-10 mx-5 hover:text-primary hover:glow-primary-sm transition-all duration-300">
-          Older Projects{" "}
-          <svg
-            class="h-6 w-6 fill-current md:h-8 md:w-8"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            {" "}
-            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-          </svg>
-        </a>
-      ) : (
-        <div />
-      )
-    }
-  </div>
+  {sites.length > 0 && (
+    <section class="group">
+      <SectionHead title="Live products" />
+      <LiveSites />
+    </section>
+  )}
 </BaseLayout>

@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  /** "month" shows "Feb 2024"; "day" shows "Feb 26" under a year heading. */
+  date?: "month" | "day";
+  showDescription?: boolean;
+}
+
+const { post, date = "month", showDescription = false } = Astro.props;
+const { title, description, tags, pubDate } = post.data;
+const when = pubDate.toLocaleDateString("en-US",
+  date === "month" ? { month: "short", year: "numeric", timeZone: "UTC" } : { month: "short", day: "2-digit", timeZone: "UTC" });
+---
+
+<a class="row" href={`/blog/${post.id}`}>
+  <span class="when">{when}</span>
+  <div class="what">
+    <div class="line">
+      <span class="title">{title}</span>
+      <span class="tagline">{tags.slice(0, 2).join(" · ")}</span>
+    </div>
+    {showDescription && <div class="sub">{description}</div>}
+  </div>
+</a>

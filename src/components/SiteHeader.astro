@@ -1,0 +1,47 @@
+---
+import Icon from "./Icon.astro";
+
+export type NavId = "home" | "projects" | "writing" | "cv";
+
+interface Props {
+  active?: NavId;
+}
+
+const { active } = Astro.props;
+
+const links: { id: NavId; href: string; label: string }[] = [
+  { id: "home", href: "/", label: "Home" },
+  { id: "projects", href: "/project/", label: "Projects" },
+  { id: "writing", href: "/blog/", label: "Writing" },
+  { id: "cv", href: "/cv", label: "CV" },
+];
+---
+
+<header class="wrap">
+  <div class="site-header">
+    <nav aria-label="Site">
+      {links.map((link) => (
+        <a href={link.href} aria-current={link.id === active ? "page" : undefined}>{link.label}</a>
+      ))}
+      <button type="button" class="theme-btn" id="theme-btn" aria-label="Switch between light and dark">
+        <Icon name="moon" class="icon" />
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById("theme-btn");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var root = document.documentElement;
+      var dark = root.dataset.theme
+        ? root.dataset.theme === "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var next = dark ? "light" : "dark";
+      root.dataset.theme = next;
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  })();
+</script>

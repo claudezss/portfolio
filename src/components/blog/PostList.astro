@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostRow from "../PostRow.astro";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+
+// Posts arrive newest first; group them under a year heading.
+const { posts } = Astro.props;
+const years = new Map<number, CollectionEntry<"blog">[]>();
+for (const post of posts) {
+  const year = post.data.pubDate.getUTCFullYear();
+  years.set(year, [...(years.get(year) ?? []), post]);
+}
+---
+
+{posts.length === 0 ? (
+  <p class="empty">No posts yet.</p>
+) : (
+  [...years].map(([year, items]) => (
+    <>
+      <div class="year">{year}</div>
+      <div class="rows">
+        {items.map((post) => <PostRow post={post} date="day" showDescription />)}
+      </div>
+    </>
+  ))
+)}

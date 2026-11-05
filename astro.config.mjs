@@ -2,7 +2,6 @@ import {defineConfig} from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import partytown from "@astrojs/partytown";
-import tailwindcss from '@tailwindcss/vite';
 import { unified } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math'
 import remarkParse from 'remark-parse'
@@ -19,9 +18,11 @@ export default defineConfig({
             remarkPlugins: [remarkParse, remarkMath, remarkRehype],
             rehypePlugins: [rehypeKatex, rehypeStringify],
         }),
-    },
-    vite: {
-        plugins: [tailwindcss()],
+        // Light and dark code colours; global.css picks one per theme.
+        shikiConfig: {
+            themes: { light: 'github-light', dark: 'github-dark' },
+            defaultColor: false,
+        },
     },
     integrations: [mdx(), sitemap(),
         partytown({

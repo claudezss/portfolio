@@ -3,36 +3,19 @@ import type { TagGroup } from "../../utils/tags";
 
 interface Props {
   tags: TagGroup[];
-  /** Slug of the tag page currently being viewed; omitted on /blog/. */
+  total: number;
+  /** Slug of the tag page being viewed; omitted on /blog/. */
   activeSlug?: string;
 }
 
-const { tags, activeSlug } = Astro.props;
-const base =
-  "badge cursor-pointer transition-colors duration-200 hover:border-primary hover:text-primary";
+const { tags, total, activeSlug } = Astro.props;
 ---
 
-<nav class="mb-6 reveal" aria-label="Filter posts by tag">
-  <div class="text-lg font-semibold mb-3">Filter by tags:</div>
-  <div class="flex flex-wrap gap-2 mb-4">
-    <a
-      href="/blog/"
-      class={`${base} ${activeSlug ? "badge-outline" : "badge-primary"}`}
-      aria-current={activeSlug ? undefined : "page"}
-    >
-      All Posts
+<nav class="chips tags" aria-label="Filter posts by tag">
+  <a class="chip" href="/blog/" aria-current={activeSlug ? undefined : "page"}>All<span class="count">{total}</span></a>
+  {tags.map((group) => (
+    <a class="chip" href={`/blog/tags/${group.slug}`} aria-current={group.slug === activeSlug ? "page" : undefined}>
+      {group.tag}<span class="count">{group.posts.length}</span>
     </a>
-    {
-      tags.map((group) => (
-        <a
-          href={`/blog/tags/${group.slug}`}
-          class={`${base} ${group.slug === activeSlug ? "badge-primary" : "badge-outline"}`}
-          aria-current={group.slug === activeSlug ? "page" : undefined}
-        >
-          {group.tag}
-          <span class="opacity-60 ml-1">{group.posts.length}</span>
-        </a>
-      ))
-    }
-  </div>
+  ))}
 </nav>

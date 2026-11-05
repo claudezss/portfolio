@@ -1,45 +1,128 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import TopNav from "../components/home/TopNav.astro";
-import HeroScene from "../components/home/HeroScene.astro";
-import AboutSection from "../components/home/AboutSection.astro";
-import ExperienceTimeline from "../components/home/ExperienceTimeline.astro";
-import SkillGroups from "../components/home/SkillGroups.astro";
-import ProjectSwap from "../components/home/ProjectSwap.astro";
-import PublicationsAwards from "../components/home/PublicationsAwards.astro";
-import type { Publication } from "../components/home/PublicationsAwards.astro";
-import LatestWriting from "../components/home/LatestWriting.astro";
-import ContactSection from "../components/home/ContactSection.astro";
+import SectionHead from "../components/SectionHead.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import PostRow from "../components/PostRow.astro";
+import LiveSites from "../components/LiveSites.astro";
+import Icon from "../components/Icon.astro";
+import yanImage from "../imgs/yan.jpeg";
+import { summary } from "../data/experience";
+import { email, social } from "../data/social";
+import { publications } from "../data/publications";
+import { skillGroups } from "../data/skills";
+import { sites } from "../data/sites";
+import { getAwards, getPosts, getProjects } from "../utils/collections";
 
-const publications: Publication[] = [
-  {
-    year: "2025",
-    title: "Grid-Agent: An LLM-Powered Multi-Agent System for Power Grid Control",
-    venue: "ArXiv preprint",
-    url: "https://arxiv.org/abs/2508.05702",
-  },
-  {
-    year: "2022",
-    title:
-      "Three-Phase Distribution Locational Marginal Pricing for Competitive Electricity Markets with Distributed Generators and Flexible Loads",
-    venue: "IEEE PES Innovative Smart Grid Technologies (ISGT)",
-    url: "https://ieeexplore.ieee.org/abstract/document/9817498",
-  },
-];
+const projects = (await getProjects()).filter((p) => p.data.featured !== false).slice(0, 4);
+const posts = (await getPosts()).slice(0, 3);
+
+// Papers and awards in one list, newest first.
+const awards = await getAwards();
+const honours = [
+  ...publications.map((p) => ({ kind: "paper", year: p.year, title: p.title, sub: p.venue, href: p.url, external: true })),
+  ...awards.map((a) => ({
+    kind: "award", year: a.data.pubDate.getUTCFullYear(), title: a.data.title, sub: a.data.description,
+    href: `/award/${a.id}`, external: false,
+  })),
+].sort((a, b) => b.year - a.year);
+
 ---
 
-<BaseLayout fullWidth={true} sideBarActiveItemID="home">
-  <TopNav />
-  <HeroScene />
-  <AboutSection />
-  <ExperienceTimeline />
-  <SkillGroups />
-  <ProjectSwap />
-  <PublicationsAwards publications={publications} />
-  <LatestWriting />
-  <ContactSection />
-</BaseLayout>
+<BaseLayout nav="home">
+  <div class="intro">
+    <Image src={yanImage} alt="Portrait of Yan Zhang" width={176} height={176} format="webp" loading="eager" />
+    <div>
+      <div class="kicker">Power systems × machine learning</div>
+      <h1>Yan (Claude) Zhang <span>P.Eng.</span></h1>
+      <div class="role">Senior Software Engineer at ThinkLabs AI</div>
+    </div>
+  </div>
 
-<script>
-  import "../scripts/home-anim.ts";
-</script>
+  <div class="bio">
+    <p>
+      I build software for the electric grid. My work joins power-systems engineering with machine
+      learning: <strong>graph neural networks</strong> that estimate the real-time state of distribution
+      grids, and <strong>optimization models</strong> that utilities use to run distributed energy resources.
+    </p>
+    <p>
+      Before ThinkLabs, I spent five years on <a class="link" href="/project/gridos-derms">GE’s GridOS-DERMS</a>.
+      I hold an MEng from the University of Toronto and a BE from Western University.
+    </p>
+  </div>
+
+  <div class="buttons">
+    <a class="btn primary" href={`mailto:${email}`}><Icon name="mail" />Email me</a>
+    {social.map((link) => (
+      <a class="btn icon-only" href={link.href} target="_blank" rel="noopener" aria-label={link.label} title={link.label}>
+        <Icon name={link.icon} />
+      </a>
+    ))}
+  </div>
+
+  <section class="section">
+    <SectionHead title="Experience" href="/cv" linkLabel="Full CV" />
+    <ul class="rows">
+      {summary.map((item) => (
+        <li class="row">
+          <span class="when">{item.when}</span>
+          <div class="what with-logo">
+            <span class="logo"><img src={item.logo} alt="" width="32" height="32" loading="lazy" /></span>
+            <div>
+              <div class="title">{item.title} <span class="org">· {item.org}</span></div>
+              <div class="sub">{item.text}</div>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <SectionHead title="Selected projects" href="/project/" linkLabel="All projects" />
+    <div class="cards">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section class="section">
+    <SectionHead title="Publications and awards" href="/award/" linkLabel="Awards" />
+    <div class="rows">
+      {honours.map((item) => (
+        <a class="row" href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener" : undefined}>
+          <span class="when">{item.year}</span>
+          <div class="what">
+            <div class="title"><span class={`kind ${item.kind}`}>{item.kind}</span>{item.title}</div>
+            <div class="sub">{item.sub}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <SectionHead title="Writing" href="/blog/" linkLabel="All posts" />
+    <div class="rows">
+      {posts.map((post) => <PostRow post={post} />)}
+    </div>
+  </section>
+
+  <section class="section">
+    <SectionHead title="Toolbox" />
+    <dl class="kit">
+      {skillGroups.map((group) => (
+        <>
+          <dt>{group.name}</dt>
+          <dd class="chips">{group.skills.map((skill) => <span class="chip">{skill}</span>)}</dd>
+        </>
+      ))}
+    </dl>
+  </section>
+
+  {sites.length > 0 && (
+    <section class="section">
+      <SectionHead title="Live products" />
+      <LiveSites />
+    </section>
+  )}
+</BaseLayout>

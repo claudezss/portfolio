@@ -1,10 +1,8 @@
 /**
  * Single source of truth for education and work history.
  *
- * Both the home page timeline (src/components/home/ExperienceTimeline.astro)
- * and the CV page (src/pages/cv.astro) render from here, so a role only ever
- * needs editing in one place. `highlights` is the condensed copy shown on the
- * home page; `details` is the full copy shown on the CV.
+ * The CV page renders `education` and `roles` in full. The home page renders
+ * `summary`, a shorter list that joins the two GE roles into one line.
  */
 
 export interface Education {
@@ -16,12 +14,6 @@ export interface Education {
 }
 
 export interface Role {
-  /** Short label for the home page timeline, e.g. "2024 — PRESENT". */
-  period: string;
-  /** Home page heading — includes the product where it matters. */
-  title: string;
-  /** Home page sub-heading. */
-  org: string;
   /** CV heading. */
   position: string;
   /** CV sub-heading. */
@@ -29,8 +21,6 @@ export interface Role {
   startDate: string;
   endDate: string;
   logo: string;
-  /** Condensed bullets for the home page. May contain inline HTML. */
-  highlights: string[];
   /** Optional lead-in paragraph shown above the CV bullets. */
   intro?: string;
   /** Full bullets for the CV. */
@@ -56,20 +46,11 @@ export const education: Education[] = [
 
 export const roles: Role[] = [
   {
-    period: "2024 — PRESENT",
-    title: "Senior Software Engineer",
-    org: "ThinkLabs AI Inc.",
     position: "Senior Software Engineer",
     company: "ThinkLabs AI Inc.",
     startDate: "2024",
     endDate: "Present",
     logo: "/thinklabs_ai_logo.png",
-    highlights: [
-      "GNN-based models for Distribution System State Estimation (<code>DSSE</code>)",
-      "Temporal-Spatial GNN (<code>TSGNN</code>) for grid measurement anomaly detection",
-      "Heterogeneous GNN (<code>HGNN</code>) for time-series power flow analysis",
-      "Scalable data-generation, training &amp; inference pipelines on <code>Ray.io</code> + <code>Kubernetes</code>",
-    ],
     details: [
       "Developed and optimized Graph Neural Network (GNN)-based AI models for Distribution System State Estimation (DSSE), improving accuracy and scalability.",
       "Designed and implemented Temporal-Spatial Graph Neural Network (TSGNN)-based models for grid measurement anomaly detection, enhancing grid reliability and predictive capabilities.",
@@ -78,19 +59,11 @@ export const roles: Role[] = [
     ],
   },
   {
-    period: "2023 — 2024",
-    title: "Senior Software Developer — GridOS-DERMS",
-    org: "GE Digital / GE Vernova",
     position: "Senior Software Developer",
     company: "GridOS-DERMS, GE Digital, GE Vernova",
     startDate: "2023",
     endDate: "2024",
     logo: "/gevernova_logo.jpeg",
-    highlights: [
-      "Scoped milestones with product management; broke down features and estimated delivery",
-      "Cross-functional design with architects, PM and QA; evaluated new tools &amp; frameworks",
-      "Mentored junior developers",
-    ],
     intro:
       "My responsibilities include all items outlined in the Software Developer role at GridOS-DERMS, GE Digital, GE Vernova, as well as:",
     details: [
@@ -102,21 +75,11 @@ export const roles: Role[] = [
     ],
   },
   {
-    period: "2019 — 2023",
-    title: "Software Developer — GridOS-DERMS",
-    org: "GE Digital / GE Vernova",
     position: "Software Developer",
     company: "GridOS-DERMS, GE Digital, GE Vernova",
     startDate: "2019",
     endDate: "2023",
     logo: "/gevernova_logo.jpeg",
-    highlights: [
-      "Mathematical optimization models of grids with DERs in <code>GAMS</code>",
-      "Maintained the optimization-engine Python package for power flow analysis",
-      "OPF objectives: cost minimization, operational envelopes, bid fulfillment",
-      "RESTful microservice APIs (<code>Flask</code>) and <code>Kafka</code> queue-based services",
-      "Validated OPF results against IEEE PES published data",
-    ],
     details: [
       "Design, implement and improve mathematical optimization models to simulate electric power grid with distributed energy resources (DERs) by using GAMS",
       "Maintain `optimization engine`: the python package to run power flow analysis",
@@ -129,19 +92,46 @@ export const roles: Role[] = [
     ],
   },
   {
-    period: "2017 — 2019",
-    title: "Full Stack Developer",
-    org: "GreenfieldSCM",
     position: "Full Stack Developer",
     company: "GreenfieldSCM, Supply Chain Management",
     startDate: "2017",
     endDate: "2019",
     logo: "/greenfieldscm.jpeg",
-    highlights: [
-      "Visualized supply-chain management system (tracking, payment, invoicing) — <code>React</code> + <code>Django</code> + <code>MySQL</code>",
-    ],
     details: [
       "Developing Visualized Supply Chain Management System, include tracking, payment, and invoice generation functions. This web app is built by React (for frontend), MYSQL and Django (for backend).",
     ],
+  },
+];
+
+export interface SummaryItem {
+  when: string;
+  title: string;
+  org: string;
+  logo: string;
+  /** One or two sentences. */
+  text: string;
+}
+
+export const summary: SummaryItem[] = [
+  {
+    when: "2024 – now",
+    title: "Senior Software Engineer",
+    org: "ThinkLabs AI",
+    logo: "/thinklabs_ai_logo.png",
+    text: "GNN models for distribution system state estimation, anomaly detection and power flow. Training pipelines on Ray and Kubernetes.",
+  },
+  {
+    when: "2019 – 2024",
+    title: "Software Developer → Senior",
+    org: "GE Vernova",
+    logo: "/gevernova_logo.jpeg",
+    text: "GridOS-DERMS optimization engine: OPF models in GAMS, power-flow services in Python, Flask and Kafka.",
+  },
+  {
+    when: "2017 – 2019",
+    title: "Full Stack Developer",
+    org: "GreenfieldSCM",
+    logo: "/greenfieldscm.jpeg",
+    text: "Supply-chain tracking, payment and invoicing app in React and Django.",
   },
 ];
